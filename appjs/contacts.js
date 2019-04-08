@@ -7,7 +7,7 @@ angular.module('AppChat').controller('ContactsController', ['$http', '$log', '$s
         this.contacts = [];
 
         this.loadContacts = function() {
-        var reqURL = "http://localhost:5000/MessagingApp/contactlist/owner/" + thisCtrl.currentUser.user_id;
+        var reqURL = "http://localhost:5000/Sheeple/contactlists/user/" + thisCtrl.currentUser.user_id;
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.get(reqURL).then(
@@ -47,10 +47,10 @@ angular.module('AppChat').controller('ContactsController', ['$http', '$log', '$s
             $log.error("Message Loaded: ", JSON.stringify(thisCtrl.messageList));
         };
 
-        this.addContact = function(username) {
-        var reqURL = "http://localhost:5000/MessagingApp/contactlist";
+        this.addContact = function(username, fname, lname, email, phone) {
+        var reqURL = "http://localhost:5000/Sheeple/contactlists"+thisCtrl.contactList_id+"/user";
             console.log("reqURL: " + reqURL);
-            data = {"owner_id": thisCtrl.currentUser.user_id, "username": username};
+            data = {"owner_id": thisCtrl.currentUser.user_id, "username": username, "first_name": fname, "last_name": lname, "email": email, "phone": phone};
             // Now issue the http request to the rest API
             $http.post(reqURL, data).then(
                 // Success function
