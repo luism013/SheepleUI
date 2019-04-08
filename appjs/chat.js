@@ -63,7 +63,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         this.loadMessages = function(){
             currChat = localStorage.getItem('currentChat');
             // Now create the url with the route to talk with the rest API
-            var reqURL = "http://localhost:5000/MessagingApp/msg/gchat/" + currChat;
+            var reqURL = "http://localhost:5000/Sheeple/posts/groupchat/" + currChat;
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.get(reqURL).then(
@@ -104,7 +104,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
 
         this.loadWhoLiked = function(msg_id){
             // Now create the url with the route to talk with the rest API
-            var reqURL1 = "http://localhost:5000/MessagingApp/msg/wholiked/" + msg_id;
+            var reqURL1 = "http://localhost:5000/Sheeple/posts/" + msg_id+"/likes";
             console.log("reqURL: " + reqURL1);
             // Now issue the http request to the rest API
             $http.get(reqURL1).then(
@@ -146,7 +146,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
 
         this.loadWhoDisliked = function(msg_id){
             // Now create the url with the route to talk with the rest API
-            var reqURL1 = "http://localhost:5000/MessagingApp/msg/whodisliked/" + msg_id;
+            var reqURL1 = "http://localhost:5000/Sheeple/posts/" + msg_id+"/dislikes";
             console.log("reqURL: " + reqURL1);
             // Now issue the http request to the rest API
             $http.get(reqURL1).then(
@@ -187,7 +187,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         };
 
         this.postMsg = function(newText){
-            var reqURL = "http://localhost:5000/MessagingApp/msg";
+            var reqURL = "http://localhost:5000/Sheeple/posts";
                 console.log("reqURL: " + reqURL);
                 var data = {'text': newText, 'person_id': thisCtrl.currentUser.user_id,
                             'gchat_id': localStorage.getItem('currentChat'), 'username': thisCtrl.currentUser.username};
@@ -225,7 +225,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         };
 
         this.likeMsg = function(msg_id){
-            var reqURL = "http://localhost:5000/MessagingApp/msg/liked";
+            var reqURL = "http://localhost:5000/Sheeple/posts/"+msg_id+"/like/"+thisCtrl.currentUser.user_id;
                 console.log("reqURL: " + reqURL);
                 var data = {'likes': true, 'dislikes': false,
                             'person_id': thisCtrl.currentUser.user_id, 'msg_id': msg_id};
@@ -262,7 +262,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         };
 
         this.dislikeMsg = function(msg_id){
-            var reqURL = "http://localhost:5000/MessagingApp/msg/disliked";
+            var reqURL = "http://localhost:5000/Sheeple/posts/"+msg_id+"/dislike/"+thisCtrl.currentUser.user_id;
                 console.log("reqURL: " + reqURL);
                 var data = {'likes': false, 'dislikes': true,
                             'person_id': thisCtrl.currentUser.user_id, 'msg_id': msg_id};

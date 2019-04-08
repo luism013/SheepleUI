@@ -1,12 +1,12 @@
 angular.module('AppChat').controller('NewChatController', ['$http', '$log', '$scope', '$location', '$routeParams', 'currUser',
     function($http, $log, $scope, $location, $routeParams, currUser) {
-
+        "use strict";
         var thisCtrl = this;
         this.currentUser = currUser.getUser();
         this.contacts = [];
 
         this.loadContacts = function() {
-        var reqURL = "http://localhost:5000/MessagingApp/contactlist/owner/" + thisCtrl.currentUser.user_id;
+        var reqURL = "http://localhost:5000/Sheeple/contactlist/user/" + thisCtrl.currentUser.user_id;
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.get(reqURL).then(
@@ -47,7 +47,7 @@ angular.module('AppChat').controller('NewChatController', ['$http', '$log', '$sc
         };
 
         this.newChat = function(gchat_name) {
-            var reqURL = "http://localhost:5000/MessagingApp/gchat";
+            var reqURL = "http://localhost:5000/Sheeple/groupchats";
                 console.log("reqURL: " + reqURL);
                 var data = {'gchat_name': gchat_name, 'person_id': thisCtrl.currentUser.user_id};
                 console.log(data);
@@ -92,10 +92,10 @@ angular.module('AppChat').controller('NewChatController', ['$http', '$log', '$sc
 
         $scope.members = {};
 
-        $scope.addMember = function(gchat_id, person_id) {
-            var reqURL = "http://localhost:5000/MessagingApp/gchat/members/" + gchat_id;
+        $scope.addMember = function(groupchat_id, user_id) {
+            var reqURL = "http://localhost:5000/Sheeple/groupchats/" +groupchat_id+"/"+user_id;
                 console.log("reqURL: " + reqURL);
-                var data = {'gchat_id': gchat_id, 'person_id': person_id};
+                var data = {'groupchat_id': groupchat_id, 'user_id': user_id};
                 console.log(data);
                 // Now issue the http request to the rest API
                 $http.post(reqURL, data).then(
@@ -135,7 +135,7 @@ angular.module('AppChat').controller('NewChatController', ['$http', '$log', '$sc
         this.logout = function() {
             currUser.deleteUser();
             localStorage.removeItem('currentChat');
-            $location.path('/login')
+            $location.path('/login');
         };
 
         this.loadContacts();
