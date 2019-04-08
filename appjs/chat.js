@@ -1,6 +1,6 @@
 angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope', '$location', '$routeParams', 'currUser',
     function($http, $log, $scope, $location, $routeParams, currUser) {
-
+        "use strict";
         var thisCtrl = this;
 
         this.messageList = [];

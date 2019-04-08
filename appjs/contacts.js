@@ -1,6 +1,6 @@
 angular.module('AppChat').controller('ContactsController', ['$http', '$log', '$scope', '$location', '$routeParams', 'currUser',
     function($http, $log, $scope, $location, $routeParams, currUser) {
-
+        "use strict";
         var thisCtrl = this;
         this.currentUser = currUser.getUser();
         this.contactList_id;
@@ -50,7 +50,7 @@ angular.module('AppChat').controller('ContactsController', ['$http', '$log', '$s
         this.addContact = function(username) {
         var reqURL = "http://localhost:5000/MessagingApp/contactlist";
             console.log("reqURL: " + reqURL);
-            data = {"owner_id": thisCtrl.currentUser.user_id, "username": username}
+            data = {"owner_id": thisCtrl.currentUser.user_id, "username": username};
             // Now issue the http request to the rest API
             $http.post(reqURL, data).then(
                 // Success function
@@ -87,7 +87,7 @@ angular.module('AppChat').controller('ContactsController', ['$http', '$log', '$s
         this.logout = function() {
             currUser.deleteUser();
             localStorage.removeItem('currentChat');
-            $location.path('/login')
+            $location.path('/login');
         };
 
         this.loadContacts();

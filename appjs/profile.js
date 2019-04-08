@@ -1,6 +1,6 @@
 angular.module('AppChat').controller('ProfileController', ['$http', '$log', '$scope', '$location', '$routeParams', 'currUser',
     function($http, $log, $scope, $location, $routeParams, currUser) {
-
+        "use strict";
         var thisCtrl = this;
         this.currentUser = currUser.getUser();
         this.ownedChatsList = [];
@@ -9,7 +9,7 @@ angular.module('AppChat').controller('ProfileController', ['$http', '$log', '$sc
         this.currChat;
 
         this.loadContacts = function() {
-        var reqURL = "http://localhost:5000/MessagingApp/contactlist/owner/" + thisCtrl.currentUser.user_id;
+        var reqURL = "http://localhost:5000/Sheeple/contactlists/user/" + thisCtrl.currentUser.user_id;
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.get(reqURL).then(
@@ -51,7 +51,8 @@ angular.module('AppChat').controller('ProfileController', ['$http', '$log', '$sc
 
         this.loadOwnedChats = function(){
             // Now create the url with the route to talk with the rest API
-            var reqURL = "http://localhost:5000/MessagingApp/gchat/owner/" + thisCtrl.currentUser.user_id;
+            // ---------------------------------------------------------------------------------------
+            var reqURL = "http://localhost:5000/Sheeple/groupchats/user/" + thisCtrl.currentUser.user_id;
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.get(reqURL).then(
@@ -134,10 +135,10 @@ angular.module('AppChat').controller('ProfileController', ['$http', '$log', '$sc
             $log.error("Message Loaded: ", JSON.stringify(thisCtrl.messageList));
         };
 
-        this.deleteChat = function(gchat_id){
+        this.deleteChat = function(gc_id){
             // Now create the url with the route to talk with the rest API
-            var reqURL = "http://localhost:5000/MessagingApp/gchat/" + gchat_id;
-            var data = {"gchat_id": gchat_id}
+            var reqURL = "http://localhost:5000/Sheeple/groupchats/" + gc_id;
+            var data = {"gc_id": gc_id}
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.delete(reqURL, data).then(
@@ -187,10 +188,10 @@ angular.module('AppChat').controller('ProfileController', ['$http', '$log', '$sc
 
         $scope.members = {};
 
-        $scope.addMember = function(gchat_id, person_id) {
-            var reqURL = "http://localhost:5000/MessagingApp/gchat/members/" + gchat_id;
+        $scope.addMember = function(gc_id, user_id) {
+            var reqURL = "http://localhost:5000/Sheeple/groupchats/"+ gc_id+"/"+user_id;
                 console.log("reqURL: " + reqURL);
-                var data = {'gchat_id': gchat_id, 'person_id': person_id};
+                var data = {'groupchat_id': gc_id, 'user_id': user_id};
                 console.log(data);
                 // Now issue the http request to the rest API
                 $http.post(reqURL, data).then(
@@ -234,7 +235,7 @@ angular.module('AppChat').controller('ProfileController', ['$http', '$log', '$sc
         this.logout = function() {
             currUser.deleteUser();
             localStorage.removeItem('currentChat');
-            $location.path('/login')
+            $location.path('/login');
         };
 
         this.loadContacts();
