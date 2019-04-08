@@ -1,0 +1,42 @@
+<div ng-cloak style="align-content: center">
+
+<div>
+    <p style="text-align:right">
+        <button class="chats" ng-click="contactCtrl.showChats()">Chats</button>
+        <button class="profile" ng-click="">Profile</button>
+        <button class="logout" ng-click="contactCtrl.logout()">logout</button></p>
+</div>
+
+<div class="row">
+
+    <div class="col s4">
+        <div ng-repeat="c in contactCtrl.contacts">
+            <div class="card">
+                <div class="card-content">
+                    <!-- Card Title is the name of the contact -->
+                    <span class="card-title" >{{ c.username }}</span>
+                    <p>{{ c.phone }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col s4">
+        <form name="form" ng-submit="contactCtrl.addContact(username)" role="form">
+            <center><h5>ADD CONTACT</h5></center>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <i class="fa fa-key"></i>
+                <div>
+                    <input type="text" name="username" id="username" class="form-control" ng-model="username" required />
+                </div>
+                <span ng-show="form.username.$dirty && form.username.$error.required" class="help-block"></span>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-danger">ADD</button>
+            </div>
+        </form>
+    </div>
+
+</div>
