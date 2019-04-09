@@ -9,10 +9,9 @@ angular.module('AppChat').controller('LoginController', ['$http', '$log', '$scop
                 console.log("reqURL: " + reqURL);
                 data = {'username': username, 'password': password};
                 // Now issue the http request to the rest API
-                $http.post(reqURL, data).then(
+            $http.post(reqURL, data).then(
                     // Success function
                     function (response) {
-                        print("ok");
                         console.log("data: " + JSON.stringify(response.data));
                         thisCtrl.currentUser = response.data.User;
                         currUser.setUser(thisCtrl.currentUser);
