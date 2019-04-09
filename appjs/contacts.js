@@ -3,7 +3,7 @@ angular.module('AppChat').controller('ContactsController', ['$http', '$log', '$s
         "use strict";
         var thisCtrl = this;
         this.currentUser = currUser.getUser();
-        this.contactList_id = [];
+        this.contactList_id = {};
         this.contacts = [];
 
         this.loadContacts = function() {

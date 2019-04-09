@@ -12,10 +12,11 @@ angular.module('AppChat').controller('LoginController', ['$http', '$log', '$scop
                 $http.post(reqURL, data).then(
                     // Success function
                     function (response) {
+                        print("ok");
                         console.log("data: " + JSON.stringify(response.data));
                         thisCtrl.currentUser = response.data.User;
                         currUser.setUser(thisCtrl.currentUser);
-                        $location.path('/groupchats/user/'+thisCtrl.currentUser.user_id);
+                        $location.path('/user/gchats');
                     },
                 function (response){
                     // This is the error function
@@ -45,7 +46,7 @@ angular.module('AppChat').controller('LoginController', ['$http', '$log', '$scop
         this.register = function(firstname, lastname, email, phone, username, password){
             var reqURL = "http://localhost:5000/Sheeple/register";
                 console.log("reqURL: " + reqURL);
-                var data = {'first_name': firstname, 'last_name': lastname, 'email': email,
+                data = {'first_name': firstname, 'last_name': lastname, 'email': email,
                             'phone': phone, 'username': username, 'password': password};
                 // Now issue the http request to the rest API
                 $http.post(reqURL, data).then(
@@ -54,7 +55,7 @@ angular.module('AppChat').controller('LoginController', ['$http', '$log', '$scop
                         console.log("data: " + JSON.stringify(response.data));
                         thisCtrl.currentUser = response.data.User;
                         currUser.setUser(thisCtrl.currentUser);
-                        $location.path('/groupchat/user');
+                        $location.path('/user/gchats');
                     },
                     function (response){
                     // This is the error function
