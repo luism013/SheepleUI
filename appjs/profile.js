@@ -6,7 +6,7 @@ angular.module('AppChat').controller('ProfileController', ['$http', '$log', '$sc
         this.ownedChatsList = [];
         this.contacts = [];
         this.editChat = false;
-        this.currChat;
+        this.currChat = [];
 
         this.loadContacts = function() {
         var reqURL = "http://localhost:5000/Sheeple/contactlists/user/" + thisCtrl.currentUser.user_id;
@@ -92,53 +92,53 @@ angular.module('AppChat').controller('ProfileController', ['$http', '$log', '$sc
             $log.error("Message Loaded: ", JSON.stringify(thisCtrl.messageList));
         };
 
-        this.changeName = function(newName){
-            // Now create the url with the route to talk with the rest API
-            var reqURL = "http://localhost:5000/MessagingApp/gchat/members/" + thisCtrl.currChat.gchat_id;
-            var data = {"gchat_id": thisCtrl.currChat.gchat_id, "gchat_name": newName}
-            console.log("reqURL: " + reqURL);
-            // Now issue the http request to the rest API
-            $http.put(reqURL, data).then(
-                // Success function
-                function (response) {
-                    console.log("data: " + JSON.stringify(response.data));
-                    // assing the part details to the variable in the controller
-
-                    /*
-                    * Stores the data received from python call. The jsonyfied data
-                    */
-                    thisCtrl.ownedChatsList = response.data.ChatsByOwner;
-
-                },
-            function (response){
-                // This is the error function
-                // If we get here, some error occurred.
-                // Verify which was the cause and show an alert.
-                var status = response.status;
-                if (status == 0){
-                    alert("No hay conexion a Internet");
-                }
-                else if (status == 401){
-                    alert("Su sesion expiro. Conectese de nuevo.");
-                }
-                else if (status == 403){
-                    alert("No esta autorizado a usar el sistema.");
-                }
-                else if (status == 404){
-
-                }
-                else {
-                    alert("Error interno del sistema.");
-                }
-            });
-
-            $log.error("Message Loaded: ", JSON.stringify(thisCtrl.messageList));
-        };
+        // this.changeName = function(newName){
+        //     // Now create the url with the route to talk with the rest API
+        //     var reqURL = "http://localhost:5000/MessagingApp/gchat/members/" + thisCtrl.currChat.gchat_id;
+        //     var data = {"gchat_id": thisCtrl.currChat.gchat_id, "gchat_name": newName}
+        //     console.log("reqURL: " + reqURL);
+        //     // Now issue the http request to the rest API
+        //     $http.put(reqURL, data).then(
+        //         // Success function
+        //         function (response) {
+        //             console.log("data: " + JSON.stringify(response.data));
+        //             // assing the part details to the variable in the controller
+        //
+        //             /*
+        //             * Stores the data received from python call. The jsonyfied data
+        //             */
+        //             thisCtrl.ownedChatsList = response.data.ChatsByOwner;
+        //
+        //         },
+        //     function (response){
+        //         // This is the error function
+        //         // If we get here, some error occurred.
+        //         // Verify which was the cause and show an alert.
+        //         var status = response.status;
+        //         if (status == 0){
+        //             alert("No hay conexion a Internet");
+        //         }
+        //         else if (status == 401){
+        //             alert("Su sesion expiro. Conectese de nuevo.");
+        //         }
+        //         else if (status == 403){
+        //             alert("No esta autorizado a usar el sistema.");
+        //         }
+        //         else if (status == 404){
+        //
+        //         }
+        //         else {
+        //             alert("Error interno del sistema.");
+        //         }
+        //     });
+        //
+        //     $log.error("Message Loaded: ", JSON.stringify(thisCtrl.messageList));
+        // };
 
         this.deleteChat = function(gc_id){
             // Now create the url with the route to talk with the rest API
             var reqURL = "http://localhost:5000/Sheeple/groupchats/" + gc_id;
-            var data = {"gc_id": gc_id}
+            var data = {"gc_id": gc_id};
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.delete(reqURL, data).then(

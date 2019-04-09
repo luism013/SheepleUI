@@ -6,7 +6,7 @@ angular.module('AppChat').controller('NewChatController', ['$http', '$log', '$sc
         this.contacts = [];
 
         this.loadContacts = function() {
-        var reqURL = "http://localhost:5000/Sheeple/contactlist/user/" + thisCtrl.currentUser.user_id;
+        var reqURL = "http://localhost:5000/Sheeple/contactlists/user/" + thisCtrl.currentUser.user_id;
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.get(reqURL).then(
@@ -46,21 +46,21 @@ angular.module('AppChat').controller('NewChatController', ['$http', '$log', '$sc
             $log.error("Message Loaded: ", JSON.stringify(thisCtrl.messageList));
         };
 
-        this.newChat = function(gchat_name) {
+        this.newChat = function(gc_name) {
             var reqURL = "http://localhost:5000/Sheeple/groupchats";
                 console.log("reqURL: " + reqURL);
-                var data = {'gchat_name': gchat_name, 'person_id': thisCtrl.currentUser.user_id};
+                var data = {'gc_name': gc_name, 'admin_id': thisCtrl.currentUser.user_id};
                 console.log(data);
                 // Now issue the http request to the rest API
                 $http.post(reqURL, data).then(
                     // Success function
                     function (response) {
                         console.log("data: " + JSON.stringify(response.data));
-                        var gchat_id = response.data.GroupChat.gchat_id;
+                        var gc_id = response.data.GroupChat.gchat_id;
 
                         for (var i = 0; i < thisCtrl.contacts.length; i++) {
                             if ($scope.members[thisCtrl.contacts[i]] == true) {
-                                $scope.addMember(gchat_id, thisCtrl.contacts[i].user_id);
+                                $scope.addMember(gc_id, thisCtrl.contacts[i].user_id);
                             }
                         }
                         $location.path('/user/gchats');

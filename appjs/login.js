@@ -7,7 +7,7 @@ angular.module('AppChat').controller('LoginController', ['$http', '$log', '$scop
         this.checkLogin = function(username, password){
             var reqURL = "http://localhost:5000/Sheeple/login";
                 console.log("reqURL: " + reqURL);
-                var data = {'username': username, 'password': password};
+                data = {'username': username, 'password': password};
                 // Now issue the http request to the rest API
                 $http.post(reqURL, data).then(
                     // Success function
@@ -15,7 +15,7 @@ angular.module('AppChat').controller('LoginController', ['$http', '$log', '$scop
                         console.log("data: " + JSON.stringify(response.data));
                         thisCtrl.currentUser = response.data.User;
                         currUser.setUser(thisCtrl.currentUser);
-                        $location.path('/user/gchats');
+                        $location.path('/groupchats/user/'+thisCtrl.currentUser.user_id);
                     },
                 function (response){
                     // This is the error function

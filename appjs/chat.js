@@ -8,7 +8,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         this.likesList = [];
         this.dislikesList = [];
         this.currentUser = currUser.getUser();
-        this.currentChat;
+        this.currentChat = [];
         this.searchList = [];
 
         this.openChat = true;
@@ -359,7 +359,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         this.logout = function() {
             currUser.deleteUser();
             localStorage.removeItem('currentChat');
-            $location.path('/login')
+            $location.path('/login');
         };
 
         this.refresh = function() {
@@ -368,7 +368,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
 
         $scope.getMembers = function(gchat_index) {
             thisCtrl.chatsList[gchat_index].members = [];
-            var reqURL = "http://localhost:5000/MessagingApp/gchat/members/" + thisCtrl.chatsList[gchat_index].gchat_id;
+            var reqURL = "http://localhost:5000/Sheeple/groupchat/" +thisCtrl.chatsList[gchat_index].gchat_id+"/users";
             console.log("reqURL: " + reqURL);
             $http.get(reqURL).then(
             function (response) {
