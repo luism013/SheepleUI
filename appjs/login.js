@@ -42,11 +42,11 @@ angular.module('AppChat').controller('LoginController', ['$http', '$log', '$scop
             $log.error("Users Loaded: ", JSON.stringify());
         };
 
-        this.register = function(firstname, lastname, email, phone, username, password){
+        this.register = function(firstname, lastname, email, phone, gender, username, password){
             var reqURL = "http://localhost:5000/Sheeple/register";
             console.log("reqURL: " + reqURL);
             var data = {'first_name': firstname, 'last_name': lastname, 'email': email,
-                'phone': phone, 'username': username, 'password': password};
+                'phone': phone, 'username': username, 'password': password, 'gender': gender};
             // Now issue the http request to the rest API
             $http.post(reqURL, data).then(
                 // Success function
