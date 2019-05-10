@@ -95,6 +95,10 @@ angular.module('AppChat').controller('ContactsController', ['$http', '$log', '$s
             $location.path('/login');
         };
 
+        this.refresh = function() {
+            window.location.reload();
+        };
+
         this.loadContacts();
 
 }]);
