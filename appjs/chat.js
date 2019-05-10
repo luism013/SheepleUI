@@ -368,7 +368,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
 
         $scope.getMembers = function(gchat_index) {
             thisCtrl.chatsList[gchat_index].members = [];
-            var reqURL = "http://localhost:5000/Sheeple/groupchat/"+thisCtrl.chatsList[gchat_index].gchat_id+"/users";
+            var reqURL = "http://localhost:5000/Sheeple/groupchats/"+thisCtrl.chatsList[gchat_index].gc_id+"/users";
             console.log("reqURL: " + reqURL);
             $http.get(reqURL).then(
             function (response) {

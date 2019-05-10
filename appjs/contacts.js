@@ -14,12 +14,12 @@ angular.module('AppChat').controller('ContactsController', ['$http', '$log', '$s
                 // Success function
                 function (response) {
                     console.log("data: " + JSON.stringify(response.data));
-                    // assing the part details to the variable in the controller
+                    // passing the part details to the variable in the controller
 
                     /*
                     * Stores the data received from python call. The jsonyfied data
                     */
-                    thisCtrl.contacts = response.data.Contacts;
+                    thisCtrl.contacts = response.data.ContactList;
                     console.log(thisCtrl.contacts);
                 },
             function (response){
@@ -44,18 +44,23 @@ angular.module('AppChat').controller('ContactsController', ['$http', '$log', '$s
                 }
             });
 
-            $log.error("Message Loaded: ", JSON.stringify(thisCtrl.messageList));
+            $log.error("Contacts Loaded: ", JSON.stringify(thisCtrl.contacts));
         };
 
-        this.addContact = function(username, fname, lname, email, phone) {
-        var reqURL = "http://localhost:5000/Sheeple/contactlists"+thisCtrl.contactList_id+"/user";
+        this.addContact = function(firstname, lastname, email, phone) {
+            if(email == null && phone == null){
+                alert("Email y Phone no pueden estar vacios. Intente nuevamente");
+                return;
+            }
+        var reqURL = "http://localhost:5000/Sheeple/contactlists/"+thisCtrl.currentUser.user_id+"/user";
             console.log("reqURL: " + reqURL);
-            data = {"owner_id": thisCtrl.currentUser.user_id, "username": username, "first_name": fname, "last_name": lname, "email": email, "phone": phone};
+            var data = {"owner_id": thisCtrl.currentUser.user_id, "first_name": firstname, "last_name": lastname, "email": email, "phone": phone};
             // Now issue the http request to the rest API
             $http.post(reqURL, data).then(
                 // Success function
                 function (response) {
-                    console.log("data: " + JSON.stringify(response.data));
+                    console.log("data: " + JSON.stringify(response.data.AddedContact));
+                    alert(firstname+" ha sido añadido a tu lista de contacto.");
                 },
             function (response){
                 // This is the error function

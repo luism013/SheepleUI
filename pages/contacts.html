@@ -15,28 +15,52 @@
                 <div class="card-content">
                     <!-- Card Title is the name of the contact -->
                     <span class="card-title" >{{ c.username }}</span>
-                    <p>{{ c.phone }}</p>
+                    <p>{{ "Name: "+c.first_name+" "+c.last_name }}</p><p>{{ "Phone: "+c.phone }}</p> <p>{{ "Email: "+c.email }}</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="col s4">
-        <form name="form" ng-submit="contactCtrl.addContact(username)" role="form">
+        <form name="form" ng-submit="contactCtrl.addContact(firstname, lastname, email, phone)" role="form">
             <center><h5>ADD CONTACT</h5></center>
             <div class="form-group">
-                <label for="username">Username</label>
+                <label for="firstname">First Name</label>
                 <i class="fa fa-key"></i>
                 <div>
-                    <input type="text" name="username" id="username" class="form-control" ng-model="username" required />
+                    <input type="text" name="firstname" id="firstname" class="form-control" ng-model="firstname" required />
                 </div>
-                <span ng-show="form.username.$dirty && form.username.$error.required" class="help-block"></span>
+                <span ng-show="form.firstname.$dirty && form.firstname.$error.required" class="help-block"></span>
+            </div>
+            <div class="form-group">
+                <label for="lastname">Last Name</label>
+                <i class="fa fa-key"></i>
+                <div>
+                    <input type="text" name="lastname" id="lastname" class="form-control" ng-model="lastname"/>
+                </div>
+                <span ng-show="form.lastname.$dirty && form.lastname.$error.required" class="help-block"></span>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <i class="fa fa-key"></i>
+                <div>
+                    <input type="text" name="email" id="email" class="form-control" ng-model="email"/>
+                </div>
+<!--                <span ng-show="form.email.$dirty" class="help-block"></span>-->
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <i class="fa fa-key"></i>
+                <div>
+                    <input type="text" name="phone" id="phone" class="form-control" ng-model="phone"/>
+                </div>
+<!--                <span ng-show="form.phone.$dirty" class="help-block"></span>-->
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn btn-danger">ADD</button>
+                <button type="submit" class="btn btn-danger">SUBMIT</button>
             </div>
         </form>
     </div>
 
-</div>
+<!--</div>-->
