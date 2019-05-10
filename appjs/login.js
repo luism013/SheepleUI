@@ -25,6 +25,9 @@ angular.module('AppChat').controller('LoginController', ['$http', '$log', '$scop
                     if (status == 0){
                         alert("No hay conexion a Internet");
                     }
+                    else if (status == 200 || status == 201 || status == 500){
+                        //do nothing
+                    }
                     else if (status == 401){
                         alert("Su sesion expiro. Conectese de nuevo.");
                     }
