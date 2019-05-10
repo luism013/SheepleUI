@@ -57,50 +57,50 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                 }
             });
 
-            $log.error("Message Loaded: ", JSON.stringify(thisCtrl.messageList));
+            $log.error("Message Loaded Load Chats: ", JSON.stringify(thisCtrl.messageList));
         };
 
-        // this.loadMessages = function(){
-        //     var currChat = localStorage.getItem('currentChat').;
-        //     // Now create the url with the route to talk with the rest API
-        //     // var reqURL = "http://localhost:5000/Sheeple/posts/groupchat/" + currChat;
-        //     console.log("reqURL: " + reqURL);
-        //     // Now issue the http request to the rest API
-        //     $http.get(reqURL).then(
-        //         // Success function
-        //         function (response) {
-        //             console.log("data: " + JSON.stringify(response.data));
-        //             // assing the part details to the variable in the controller
-        //
-        //             /*
-        //             * Stores the data received from python call. The jsonyfied data
-        //             */
-        //             thisCtrl.messageList = response.data.Posts;
-        //         },
-        //     function (response){
-        //         // This is the error function
-        //         // If we get here, some error occurred.
-        //         // Verify which was the cause and show an alert.
-        //         var status = response.status;
-        //         if (status == 0){
-        //             alert("No hay conexion a Internet");
-        //         }
-        //         else if (status == 401){
-        //             alert("Su sesion expiro. Conectese de nuevo.");
-        //         }
-        //         else if (status == 403){
-        //             alert("No esta autorizado a usar el sistema.");
-        //         }
-        //         else if (status == 404){
-        //
-        //         }
-        //         else {
-        //             alert("Error interno del sistema.");
-        //         }
-        //     });
-        //
-        //     $log.error("Message Loaded: ", JSON.stringify(thisCtrl.messageList));
-        // };
+        this.loadMessages = function(){
+            var currChat = localStorage.getItem('currentChat');
+            // Now create the url with the route to talk with the rest API
+            var reqURL = "http://localhost:5000/Sheeple/posts/groupchat/"+ currChat;
+            console.log("reqURL: " + reqURL);
+            // Now issue the http request to the rest API
+            $http.get(reqURL).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                    // assing the part details to the variable in the controller
+
+                    /*
+                    * Stores the data received from python call. The jsonyfied data
+                    */
+                    thisCtrl.messageList = response.data.Messages;
+                },
+            function (response){
+                // This is the error function
+                // If we get here, some error occurred.
+                // Verify which was the cause and show an alert.
+                var status = response.status;
+                if (status == 0){
+                    alert("No hay conexion a Internet");
+                }
+                else if (status == 401){
+                    alert("Su sesion expiro. Conectese de nuevo.");
+                }
+                else if (status == 403){
+                    alert("No esta autorizado a usar el sistema.");
+                }
+                else if (status == 404){
+
+                }
+                else {
+                    alert("Error interno del sistema.");
+                }
+            });
+
+            $log.error("Message Loaded Load Messages: ", JSON.stringify(thisCtrl.messageList));
+        };
 
         this.loadWhoLiked = function(post_id){
             // Now create the url with the route to talk with the rest API
@@ -141,7 +141,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                 }
             });
 
-            $log.error("Message Loaded: ", JSON.stringify(thisCtrl.reactList));
+            $log.error("Message Loaded Load who liked: ", JSON.stringify(thisCtrl.reactList));
         };
 
         this.loadWhoDisliked = function(post_id){
@@ -183,14 +183,14 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                 }
             });
 
-            $log.error("Message Loaded: ", JSON.stringify(thisCtrl.reactList));
+            $log.error("Message Loaded Load who disliked: ", JSON.stringify(thisCtrl.reactList));
         };
 
         this.postMsg = function(newText){
             var reqURL = "http://localhost:5000/Sheeple/posts";
                 console.log("reqURL: " + reqURL);
                 var data = {'text': newText, 'person_id': thisCtrl.currentUser.user_id,
-                            'gchat_id': localStorage.getItem('currentChat'), 'username': thisCtrl.currentUser.username};
+                            'gc_id': localStorage.getItem('currentChat'), 'username': thisCtrl.currentUser.username};
                 console.log(data);
                 // Now issue the http request to the rest API
                 $http.post(reqURL, data).then(
@@ -221,7 +221,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     }
                 });
 
-                $log.error("Users Loaded: ", JSON.stringify());
+                $log.error("Users Loaded post message: ", JSON.stringify());
         };
 
         this.likeMsg = function(msg_id){
@@ -258,7 +258,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     }
                     });
 
-                $log.error("Users Loaded: ", JSON.stringify());
+                $log.error("Users Loaded Likes: ", JSON.stringify());
         };
 
         this.dislikeMsg = function(msg_id){
@@ -295,7 +295,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     }
                     });
 
-                $log.error("Users Loaded: ", JSON.stringify());
+                $log.error("Users Loaded Dislikes: ", JSON.stringify());
         };
 
         // this.searchMsg = function(hashtag) {
@@ -340,8 +340,8 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         //     $log.error("Message Loaded: ", JSON.stringify(thisCtrl.reactList));
         // };
 
-        this.currChat = function(gchat_id) {
-            localStorage.setItem('currentChat', gchat_id);
+        this.currChat = function(gc_id) {
+            localStorage.setItem('currentChat', gc_id);
         };
 
         this.showContacts = function() {
@@ -368,12 +368,12 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
 
         $scope.getMembers = function(gchat_index) {
             thisCtrl.chatsList[gchat_index].members = [];
-            var reqURL = "http://localhost:5000/Sheeple/groupchats/"+thisCtrl.chatsList[gchat_index].gc_id+"/users";
+            var reqURL = "http://localhost:5000/Sheeple/groupchats/" +thisCtrl.chatsList[gchat_index].gc_id+"/users";
             console.log("reqURL: " + reqURL);
             $http.get(reqURL).then(
             function (response) {
                 console.log("data: " + JSON.stringify(response.data));
-                var chat_members = response.data.Users;
+                var chat_members = response.data.GroupChats;
                 var membersList = [];
                 for (var j = 0; j < chat_members.length; j++) {
                     membersList.push(chat_members[j].username);
@@ -402,10 +402,10 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                                 }
                             });
 
-                            $log.error("Message Loaded: ", JSON.stringify());
+                            $log.error("Message Loaded Get Members: ", JSON.stringify());
         };
 
         this.loadChats();
-        // this.loadMessages();
+        this.loadMessages();
 
 }]);

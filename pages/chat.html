@@ -22,10 +22,10 @@
                 <h5>Chats</h5>
                 <div ng-repeat="c in chatCtrl.chatsList">
                     <div class="card" ng-click="chatCtrl.openChat=true; chatCtrl.openSearch=false;
-                                chatCtrl.currChat(c.gchat_id); chatCtrl.loadMessages();">
+                                chatCtrl.currChat(c.gc_id); chatCtrl.loadMessages();">
                         <div class="card-content">
                             <!-- Card Title is the name of the chat -->
-                            <span class="card-title" >{{ c.gchat_name }}</span>
+                            <span class="card-title" >{{ c.gc_name }}</span>
                                 <!-- Users who belong to that chat -->
                             <p>{{ c.members.join(", ") }}</p>
                         </div>
