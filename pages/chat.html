@@ -12,9 +12,22 @@
                 cursor: pointer;
                 padding: 14px 16px;
                 font-size: 17px;
-                width: 25%;
+                width: 16.66%;
                 margin-top: -20px;
             }
+
+            /*.tablink2{*/
+            /*    background-color: red;*/
+            /*    color: white;*/
+            /*    float: left;*/
+            /*    border: none;*/
+            /*    outline: none;*/
+            /*    cursor: pointer;*/
+            /*    padding: 14px 16px;*/
+            /*    font-size: 17px;*/
+            /*    width: 12%;*/
+            /*    margin-top: -20px;*/
+            /*}*/
 
             /*.btn{*/
             /*    background-color: red;*/
@@ -37,73 +50,19 @@
             /*}*/
 
             /* Change background color of buttons on hover */
-
-            .dropbtn {
-                /*background-color: #4CAF50;*/
-                /*color: white;*/
-                /*padding: 16px;*/
-                /*font-size: 16px;*/
-                /*border: none;*/
-            }
-
-            .dropdown {
-                position: relative;
-                display: inline-block;
-            }
-
-            .dropdown-content {
-                display: none;
-                position: absolute;
-                background-color: #f1f1f1;
-                min-width: 160px;
-                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-                z-index: 1;
-            }
-
-            .dropdown-content a {
-                color: black;
-                padding: 12px 16px;
-                text-decoration: none;
-                display: block;
-            }
-
-            .dropdown-content a:hover {background-color: #ddd;}
-
-            .dropdown:hover .dropdown-content {display: block;}
-
-            .dropdown:hover .dropbtn {background-color: #3e8e41;}
-            .tablink:hover {
-                background-color: #777;
-            }
-
         </style>
 
     </head>
 
-    <button class="tablink" ng-click="" id="defaultOpen">GroupChat</button>
+    <button class="tablink" ng-click="" id="defaultOpen">Group Chat</button>
     <button class="tablink" ng-click="chatCtrl.showContacts()">Contacts</button>
-    <button class="tablink" ng-click="chatCtrl.logout()">User</button>
+    <button class="tablink" ng-click="">User Info</button>
     <button class="tablink" ng-click="">Dashboard</button>
+    <button class="tablink" ng-click="chatCtrl.refresh()">Refresh</button>
+    <button class="tablink" ng-click="chatCtrl.logout()">Logout</button>
 
-    <div class="dropdown">
-        <button class="dropbtn">Dropdown</button>
-        <div class="dropdown-content">
-            <a href="#">Link 1</a>
-            <a href="#">Link 2</a>
-            <a href="#">Link 3</a>
-        </div>
-    </div>
 
-    <div>
-        <!--        <p><div style="text-align:left">-->
-<!--        <button class="btn-danger" ng-click=contactCtrl.refresh()>Refresh</div>-->
-    <!--        <p style="text-align:right">-->
-    <!--            <button class="contacts" ng-click="chatCtrl.showContacts()">Contacts</button>-->
-    <!--            <button class="profile" ng-click="chatCtrl.showProfile()">Profile</button>-->
-    <!--            <button class="logout" ng-click="chatCtrl.logout()">logout</button></div></p>-->
-</div>
-
-<div class="row">
+    <div class="row">
     <div class="col s3">
         <div class="card" ng-click="chatCtrl.newChat()">
             <div class="card teal darken-1">
