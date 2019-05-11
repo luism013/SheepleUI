@@ -63,7 +63,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         this.loadMessages = function(){
             var currChat = localStorage.getItem('currentChat');
             // Now create the url with the route to talk with the rest API
-            var reqURL = "http://localhost:5000/Sheeple/posts/groupchat/"+ currChat;
+            var reqURL = "http://localhost:5000/Sheeple/posts/groupchat/" + currChat;
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.get(reqURL).then(
@@ -75,7 +75,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     /*
                     * Stores the data received from python call. The jsonyfied data
                     */
-                    thisCtrl.messageList = response.data.Messages;
+                    thisCtrl.messageList = response.data.Posts;
                 },
             function (response){
                 // This is the error function
@@ -104,7 +104,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
 
         this.loadWhoLiked = function(post_id){
             // Now create the url with the route to talk with the rest API
-            var reqURL1 = "http://localhost:5000/Sheeple/posts/" + post_id+"/likes";
+            var reqURL1 = "http://localhost:5000/Sheeple/posts/" + post_id +"/likes";
             console.log("reqURL: " + reqURL1);
             // Now issue the http request to the rest API
             $http.get(reqURL1).then(
@@ -116,7 +116,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     /*
                     * Stores the data received from python call. The jsonyfied data
                     */
-                    thisCtrl.likesList = response.data.Users;
+                    thisCtrl.likesList = response.data.Likes;
 
                 },
             function (response){
@@ -146,7 +146,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
 
         this.loadWhoDisliked = function(post_id){
             // Now create the url with the route to talk with the rest API
-            var reqURL1 = "http://localhost:5000/Sheeple/posts/" + post_id+"/dislikes";
+            var reqURL1 = "http://localhost:5000/Sheeple/posts/" + post_id + "/dislikes";
             console.log("reqURL: " + reqURL1);
             // Now issue the http request to the rest API
             $http.get(reqURL1).then(
@@ -158,7 +158,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     /*
                     * Stores the data received from python call. The jsonyfied data
                     */
-                    thisCtrl.dislikesList = response.data.Users;
+                    thisCtrl.dislikesList = response.data.Dislikes;
 
                 },
             function (response){
@@ -187,10 +187,11 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         };
 
         this.postMsg = function(newText){
-            var reqURL = "http://localhost:5000/Sheeple/posts";
+            var reqURL = "http://localhost:5000/Sheeple/post";
                 console.log("reqURL: " + reqURL);
-                var data = {'text': newText, 'person_id': thisCtrl.currentUser.user_id,
-                            'gc_id': localStorage.getItem('currentChat'), 'username': thisCtrl.currentUser.username};
+                var data = {'post_content': newText, 'user_id': thisCtrl.currentUser.user_id,
+                            'gc_id': localStorage.getItem('currentChat'), 'username': thisCtrl.currentUser.username,
+                            'image_url': 'To be fixed', 'post_date': 'yikes'};
                 console.log(data);
                 // Now issue the http request to the rest API
                 $http.post(reqURL, data).then(
@@ -224,11 +225,11 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                 $log.error("Users Loaded post message: ", JSON.stringify());
         };
 
-        this.likeMsg = function(msg_id){
-            var reqURL = "http://localhost:5000/Sheeple/posts/"+msg_id+"/like/"+thisCtrl.currentUser.user_id;
+        this.likeMsg = function(post_id){
+            var reqURL = "http://localhost:5000/Sheeple/posts/"+post_id+"/like/"+thisCtrl.currentUser.user_id;
                 console.log("reqURL: " + reqURL);
                 var data = {'likes': true, 'dislikes': false,
-                            'person_id': thisCtrl.currentUser.user_id, 'msg_id': msg_id};
+                            'person_id': thisCtrl.currentUser.user_id, 'msg_id': post_id};
                 console.log(data);
                 // Now issue the http request to the rest API
                 $http.put(reqURL, data).then(
@@ -373,7 +374,8 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
             $http.get(reqURL).then(
             function (response) {
                 console.log("data: " + JSON.stringify(response.data));
-                var chat_members = response.data.GroupChats;
+                var chat_members = {};
+                chat_members = response.data.Users;
                 var membersList = [];
                 for (var j = 0; j < chat_members.length; j++) {
                     membersList.push(chat_members[j].username);
