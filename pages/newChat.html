@@ -1,17 +1,56 @@
 <div ng-cloak style="align-content: center">
 
-<div>
-    <p style="text-align:right">
-        <button class="chats" ng-click="newChatCtrl.showChats()">Chats</button>
-        <button class="profile" ng-click="">Profile</button>
-        <button class="logout" ng-click="newChatCtrl.logout()">logout</button></p>
-</div>
+    <head>
+        <style>
+            /* Style the tab buttons */
+            .tablink{
+                background-color: red;
+                color: white;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 14px 16px;
+                font-size: 17px;
+                width: 16.66%;
+                margin-top: -20px;
+            }
+
+            .btn{
+                text-align: center;
+                background-color: red;
+                border: none;
+                color: white;
+                cursor: pointer;
+            }
+
+            /* Change background color of buttons on hover */
+            .tablink:hover {
+                background-color: #777;
+            }
+
+        </style>
+
+    </head>
+
+    <button class="tablink" ng-click="newChatCtrl.showChats()" id="defaultOpen">GroupChat</button>
+    <button class="tablink" ng-click="newChatCtrl.showContacts()">Contacts</button>
+    <button class="tablink" ng-click="newChatCtrl.logout()">User Info</button>
+    <button class="tablink" ng-click="">Dashboard</button>
+    <button class="tablink" ng-click="newChatctCtrl.refresh()">Refresh</button>
+    <button class="tablink" ng-click="newChatCtrl.logout()">Logout</button>
+<!--<div>-->
+<!--    <p style="text-align:right">-->
+<!--        <button class="chats" ng-click="newChatCtrl.showChats()">Chats</button>-->
+<!--        <button class="profile" ng-click="">Profile</button>-->
+<!--        <button class="logout" ng-click="newChatCtrl.logout()">logout</button></p>-->
+<!--</div>-->
 
 <div class="row">
 
     <div class="col s4">
         <form name="form" ng-submit="newChatCtrl.newChat(gchat_name)" role="form">
-            <center><h5>NEW CHAT</h5></center>
+            <h5>NEW CHAT</h5><
             <div class="form-group">
                 <label for="gchat_name">Group Chat Name</label>
                 <i class="fa fa-key"></i>
@@ -34,7 +73,7 @@
                 </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn btn-danger">Create Chat</button>
+                <button type="submit" class="btn">Create Chat</button>
             </div>
         </form>
     </div>
