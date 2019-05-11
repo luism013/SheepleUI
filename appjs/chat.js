@@ -35,27 +35,27 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     }
 
                 },
-            function (response){
-                // This is the error function
-                // If we get here, some error occurred.
-                // Verify which was the cause and show an alert.
-                var status = response.status;
-                if (status == 0){
-                    alert("No hay conexion a Internet");
-                }
-                else if (status == 401){
-                    alert("Su sesion expiro. Conectese de nuevo.");
-                }
-                else if (status == 403){
-                    alert("No esta autorizado a usar el sistema.");
-                }
-                else if (status == 404){
+                function (response){
+                    // This is the error function
+                    // If we get here, some error occurred.
+                    // Verify which was the cause and show an alert.
+                    var status = response.status;
+                    if (status == 0){
+                        alert("No hay conexion a Internet");
+                    }
+                    else if (status == 401){
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    }
+                    else if (status == 403){
+                        alert("No esta autorizado a usar el sistema.");
+                    }
+                    else if (status == 404){
 
-                }
-                else {
-                    alert("Error interno del sistema.");
-                }
-            });
+                    }
+                    else {
+                        alert("Error interno del sistema.");
+                    }
+                });
 
             $log.error("Message Loaded Load Chats: ", JSON.stringify(thisCtrl.messageList));
         };
@@ -77,27 +77,27 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     */
                     thisCtrl.messageList = response.data.Posts;
                 },
-            function (response){
-                // This is the error function
-                // If we get here, some error occurred.
-                // Verify which was the cause and show an alert.
-                var status = response.status;
-                if (status == 0){
-                    alert("No hay conexion a Internet");
-                }
-                else if (status == 401){
-                    alert("Su sesion expiro. Conectese de nuevo.");
-                }
-                else if (status == 403){
-                    alert("No esta autorizado a usar el sistema.");
-                }
-                else if (status == 404){
+                function (response){
+                    // This is the error function
+                    // If we get here, some error occurred.
+                    // Verify which was the cause and show an alert.
+                    var status = response.status;
+                    if (status == 0){
+                        alert("No hay conexion a Internet");
+                    }
+                    else if (status == 401){
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    }
+                    else if (status == 403){
+                        alert("No esta autorizado a usar el sistema.");
+                    }
+                    else if (status == 404){
 
-                }
-                else {
-                    alert("Error interno del sistema.");
-                }
-            });
+                    }
+                    else {
+                        alert("Error interno del sistema.");
+                    }
+                });
 
             $log.error("Message Loaded Load Messages: ", JSON.stringify(thisCtrl.messageList));
         };
@@ -119,27 +119,27 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     thisCtrl.likesList = response.data.Likes;
 
                 },
-            function (response){
-                // This is the error function
-                // If we get here, some error occurred.
-                // Verify which was the cause and show an alert.
-                var status = response.status;
-                if (status == 0){
-                    alert("No hay conexion a Internet");
-                }
-                else if (status == 401){
-                    alert("Su sesion expiro. Conectese de nuevo.");
-                }
-                else if (status == 403){
-                    alert("No esta autorizado a usar el sistema.");
-                }
-                else if (status == 404){ // It means there are no users who like message
-                    thisCtrl.likesList = [];
-                }
-                else {
-                    alert("Error interno del sistema.");
-                }
-            });
+                function (response){
+                    // This is the error function
+                    // If we get here, some error occurred.
+                    // Verify which was the cause and show an alert.
+                    var status = response.status;
+                    if (status == 0){
+                        alert("No hay conexion a Internet");
+                    }
+                    else if (status == 401){
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    }
+                    else if (status == 403){
+                        alert("No esta autorizado a usar el sistema.");
+                    }
+                    else if (status == 404){ // It means there are no users who like message
+                        thisCtrl.likesList = [];
+                    }
+                    else {
+                        alert("Error interno del sistema.");
+                    }
+                });
 
             $log.error("Message Loaded Load who liked: ", JSON.stringify(thisCtrl.reactList));
         };
@@ -161,45 +161,45 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     thisCtrl.dislikesList = response.data.Dislikes;
 
                 },
-            function (response){
-                // This is the error function
-                // If we get here, some error occurred.
-                // Verify which was the cause and show an alert.
-                var status = response.status;
-                if (status == 0){
-                    alert("No hay conexion a Internet");
-                }
-                else if (status == 401){
-                    alert("Su sesion expiro. Conectese de nuevo.");
-                }
-                else if (status == 403){
-                    alert("No esta autorizado a usar el sistema.");
-                }
-                else if (status == 404){
-                    thisCtrl.dislikesList = []; // It means there are no users who dislike message
-                }
-                else {
-                    alert("Error interno del sistema.");
-                }
-            });
+                function (response){
+                    // This is the error function
+                    // If we get here, some error occurred.
+                    // Verify which was the cause and show an alert.
+                    var status = response.status;
+                    if (status == 0){
+                        alert("No hay conexion a Internet");
+                    }
+                    else if (status == 401){
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    }
+                    else if (status == 403){
+                        alert("No esta autorizado a usar el sistema.");
+                    }
+                    else if (status == 404){
+                        thisCtrl.dislikesList = []; // It means there are no users who dislike message
+                    }
+                    else {
+                        alert("Error interno del sistema.");
+                    }
+                });
 
             $log.error("Message Loaded Load who disliked: ", JSON.stringify(thisCtrl.reactList));
         };
 
         this.postMsg = function(newText){
             var reqURL = "http://localhost:5000/Sheeple/post";
-                console.log("reqURL: " + reqURL);
-                var data = {'post_content': newText, 'user_id': thisCtrl.currentUser.user_id,
-                            'gc_id': localStorage.getItem('currentChat'), 'username': thisCtrl.currentUser.username,
-                            'image_url': 'To be fixed', 'post_date': 'yikes'};
-                console.log(data);
-                // Now issue the http request to the rest API
-                $http.post(reqURL, data).then(
-                    // Success function
-                    function (response) {
-                        console.log("data: " + JSON.stringify(response.data));
-                        //$location.path('/user/gchats');
-                    },
+            console.log("reqURL: " + reqURL);
+            var data = {'post_content': newText, 'user_id': thisCtrl.currentUser.user_id,
+                'gc_id': localStorage.getItem('currentChat'), 'username': thisCtrl.currentUser.username,
+                'image_url': 'To be fixed', 'post_date': 'yikes'};
+            console.log(data);
+            // Now issue the http request to the rest API
+            $http.post(reqURL, data).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                    //$location.path('/user/gchats');
+                },
                 function (response){
                     // This is the error function
                     // If we get here, some error occurred.
@@ -222,21 +222,21 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     }
                 });
 
-                $log.error("Users Loaded post message: ", JSON.stringify());
+            $log.error("Users Loaded post message: ", JSON.stringify());
         };
 
         this.likeMsg = function(post_id){
             var reqURL = "http://localhost:5000/Sheeple/posts/"+post_id+"/like/"+thisCtrl.currentUser.user_id;
-                console.log("reqURL: " + reqURL);
-                var data = {'likes': true, 'dislikes': false,
-                            'person_id': thisCtrl.currentUser.user_id, 'msg_id': post_id};
-                console.log(data);
-                // Now issue the http request to the rest API
-                $http.put(reqURL, data).then(
-                    // Success function
-                    function (response) {
-                        console.log("data: " + JSON.stringify(response.data));
-                    },
+            console.log("reqURL: " + reqURL);
+            var data = {'likes': true, 'dislikes': false,
+                'person_id': thisCtrl.currentUser.user_id, 'msg_id': post_id};
+            console.log(data);
+            // Now issue the http request to the rest API
+            $http.put(reqURL, data).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                },
                 function (response){
                     // This is the error function
                     // If we get here, some error occurred.
@@ -257,23 +257,23 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     else {
                         alert("Error interno del sistema.");
                     }
-                    });
+                });
 
-                $log.error("Users Loaded Likes: ", JSON.stringify());
+            $log.error("Users Loaded Likes: ", JSON.stringify());
         };
 
         this.dislikeMsg = function(msg_id){
             var reqURL = "http://localhost:5000/Sheeple/posts/"+msg_id+"/dislike/"+thisCtrl.currentUser.user_id;
-                console.log("reqURL: " + reqURL);
-                var data = {'likes': false, 'dislikes': true,
-                            'person_id': thisCtrl.currentUser.user_id, 'msg_id': msg_id};
-                console.log(data);
-                // Now issue the http request to the rest API
-                $http.put(reqURL, data).then(
-                    // Success function
-                    function (response) {
-                        console.log("data: " + JSON.stringify(response.data));
-                    },
+            console.log("reqURL: " + reqURL);
+            var data = {'likes': false, 'dislikes': true,
+                'person_id': thisCtrl.currentUser.user_id, 'msg_id': msg_id};
+            console.log(data);
+            // Now issue the http request to the rest API
+            $http.put(reqURL, data).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                },
                 function (response){
                     // This is the error function
                     // If we get here, some error occurred.
@@ -294,9 +294,9 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     else {
                         alert("Error interno del sistema.");
                     }
-                    });
+                });
 
-                $log.error("Users Loaded Dislikes: ", JSON.stringify());
+            $log.error("Users Loaded Dislikes: ", JSON.stringify());
         };
 
         // this.searchMsg = function(hashtag) {
@@ -372,42 +372,42 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
             var reqURL = "http://localhost:5000/Sheeple/groupchats/" +thisCtrl.chatsList[gchat_index].gc_id+"/users";
             console.log("reqURL: " + reqURL);
             $http.get(reqURL).then(
-            function (response) {
-                console.log("data: " + JSON.stringify(response.data));
-                var chat_members = {};
-                chat_members = response.data.Users;
-                var membersList = [];
-                for (var j = 0; j < chat_members.length; j++) {
-                    membersList.push(chat_members[j].username);
-                }
-                thisCtrl.chatsList[gchat_index].members = membersList;
-            },
-                            function (response){
-                                // This is the error function
-                                // If we get here, some error occurred.
-                                // Verify which was the cause and show an alert.
-                                var status = response.status;
-                                if (status == 0){
-                                    alert("No hay conexion a Internet");
-                                }
-                                else if (status == 401){
-                                    alert("Su sesion expiro. Conectese de nuevo.");
-                                }
-                                else if (status == 403){
-                                    alert("No esta autorizado a usar el sistema.");
-                                }
-                                else if (status == 404){
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                    var chat_members = {};
+                    chat_members = response.data.Users;
+                    var membersList = [];
+                    for (var j = 0; j < chat_members.length; j++) {
+                        membersList.push(chat_members[j].username);
+                    }
+                    thisCtrl.chatsList[gchat_index].members = membersList;
+                },
+                function (response){
+                    // This is the error function
+                    // If we get here, some error occurred.
+                    // Verify which was the cause and show an alert.
+                    var status = response.status;
+                    if (status == 0){
+                        alert("No hay conexion a Internet");
+                    }
+                    else if (status == 401){
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    }
+                    else if (status == 403){
+                        alert("No esta autorizado a usar el sistema.");
+                    }
+                    else if (status == 404){
 
-                                }
-                                else {
-                                    alert("Error interno del sistema.");
-                                }
-                            });
+                    }
+                    else {
+                        alert("Error interno del sistema.");
+                    }
+                });
 
-                            $log.error("Message Loaded Get Members: ", JSON.stringify());
+            $log.error("Message Loaded Get Members: ", JSON.stringify());
         };
 
         this.loadChats();
         this.loadMessages();
 
-}]);
+    }]);
