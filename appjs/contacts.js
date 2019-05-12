@@ -85,6 +85,40 @@ angular.module('AppChat').controller('ContactsController', ['$http', '$log', '$s
             });
         };
 
+        this.deleteContact = function(firstname, lastname, email, phone) {
+            var reqURL = "http://localhost:5000/Sheeple/contactlists/"+thisCtrl.currentUser.user_id+"/user";
+            console.log("reqURL: " + reqURL);
+            var data = {"owner_id": thisCtrl.currentUser.user_id, "first_name": firstname, "last_name": lastname, "email": email, "phone": phone};
+            // Now issue the http request to the rest API
+            $http.delete(reqURL, data).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data.DeletedContact));
+                    alert(firstname+" ha sido borrado de tu lista de contacto.");
+                },
+                function (response){
+                    // This is the error function
+                    // If we get here, some error occurred.
+                    // Verify which was the cause and show an alert.
+                    var status = response.status;
+                    if (status == 0){
+                        alert("No hay conexion a Internet");
+                    }
+                    else if (status == 401){
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    }
+                    else if (status == 403){
+                        alert("No esta autorizado a usar el sistema.");
+                    }
+                    else if (status == 404){
+
+                    }
+                    else {
+                        alert("Error interno del sistema.");
+                    }
+                });
+        };
+
         this.showChats = function() {
             $location.path('/user/gchats');
         };
@@ -97,6 +131,15 @@ angular.module('AppChat').controller('ContactsController', ['$http', '$log', '$s
 
         this.refresh = function() {
             window.location.reload();
+        };
+
+        this.userInfo = function() {
+            var name = "Name: "+this.currentUser.first_name+" "+this.currentUser.last_name;
+            var phone = "Phone: "+this.currentUser.phone;
+            var email = "Email: "+this.currentUser.email;
+            var gender = "Gender: "+this.currentUser.gender;
+            var username = "Username: "+this.currentUser.username;
+            alert(username+"\n"+name+"\n"+gender+"\n"+email+"\n"+phone);
         };
 
         this.loadContacts();

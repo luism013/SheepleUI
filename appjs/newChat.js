@@ -138,6 +138,23 @@ angular.module('AppChat').controller('NewChatController', ['$http', '$log', '$sc
             $location.path('/login');
         };
 
+        this.refresh = function() {
+            window.location.reload();
+        };
+
+        this.showContacts = function() {
+            $location.path('/user/contacts');
+        };
+
+        this.userInfo = function() {
+            var name = "Name: "+this.currentUser.first_name+" "+this.currentUser.last_name;
+            var phone = "Phone: "+this.currentUser.phone;
+            var email = "Email: "+this.currentUser.email;
+            var gender = "Gender: "+this.currentUser.gender;
+            var username = "Username: "+this.currentUser.username;
+            alert(username+"\n"+name+"\n"+gender+"\n"+email+"\n"+phone);
+        };
+
         this.loadContacts();
 
 }]);

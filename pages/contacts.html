@@ -24,6 +24,14 @@
             cursor: pointer;
         }
 
+        .btn2{
+            text-align: center;
+            background-color: black;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
         /* Change background color of buttons on hover */
         .tablink:hover {
             background-color: #777;
@@ -35,7 +43,7 @@
 
     <button class="tablink" ng-click="contactCtrl.showChats()" id="defaultOpen">GroupChat</button>
     <button class="tablink" ng-click="">Contacts</button>
-    <button class="tablink" ng-click="contactCtrl.logout()">User Info</button>
+    <button class="tablink" ng-click="contactCtrl.userInfo()">User Info</button>
     <button class="tablink" ng-click="">Dashboard</button>
     <button class="tablink" ng-click="contactCtrl.refresh()">Refresh</button>
     <button class="tablink" ng-click="contactCtrl.logout()">Logout</button>
@@ -48,7 +56,8 @@
                 <div class="card-content">
                     <!-- Card Title is the name of the contact -->
                     <span class="card-title" >{{ c.username }}</span>
-                    <p>{{ "Name: "+c.first_name+" "+c.last_name }}</p><p>{{ "Phone: "+c.phone }}</p> <p>{{ "Email: "+c.email }}</p>
+                        <p>{{ "Name: "+c.first_name+" "+c.last_name }}</p><p>{{ "Phone: "+c.phone }}</p> <p>{{ "Email: "+c.email }}</p>
+                    <button class="btn2" type="button" name="action" ng-click="contactCtrl.deleteContact(c.first_name, c.last_name, c.email, c.phone)"> Delete
                 </div>
             </div>
         </div>

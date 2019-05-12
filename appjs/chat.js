@@ -367,6 +367,15 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
             window.location.reload();
         };
 
+        this.userInfo = function() {
+            var name = "Name: "+this.currentUser.first_name+" "+this.currentUser.last_name;
+            var phone = "Phone: "+this.currentUser.phone;
+            var email = "Email: "+this.currentUser.email;
+            var gender = "Gender: "+this.currentUser.gender;
+            var username = "Username: "+this.currentUser.username;
+            alert(username+"\n"+name+"\n"+gender+"\n"+email+"\n"+phone);
+        };
+
         $scope.getMembers = function(gchat_index) {
             thisCtrl.chatsList[gchat_index].members = [];
             var reqURL = "http://localhost:5000/Sheeple/groupchats/" +thisCtrl.chatsList[gchat_index].gc_id+"/users";
