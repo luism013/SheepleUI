@@ -119,6 +119,20 @@ angular.module('AppChat').controller('ContactsController', ['$http', '$log', '$s
                 });
         };
 
+
+        // this.deleteContact = function(firstname, lastname, email, phone) {
+        //     var i;
+        //     var removed;
+        //     for (i = 0; i < thisCtrl.contacts.length;i++){
+        //         if(thisCtrl.contacts[i].first_name == firstname && thisCtrl.contacts[i].last_name == lastname && thisCtrl.contacts[i].email == email && thisCtrl.contacts[i].phone == phone){
+        //             removed = thisCtrl.contacts.splice(i, 1);
+        //             break;
+        //         }
+        //     }
+        //     console.log("data: " + JSON.stringify(response.data.DeletedContact));
+        //     alert(removed.first_name+" ha sido borrado de tu lista de contacto. \n Por favor, refresque la pagina.");
+        // };
+
         this.showChats = function() {
             $location.path('/user/gchats');
         };
