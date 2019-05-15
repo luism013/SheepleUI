@@ -57,7 +57,7 @@
                     <!-- Card Title is the name of the contact -->
                     <span class="card-title" >{{ c.username }}</span>
                         <p>{{ "Name: "+c.first_name+" "+c.last_name }}</p><p>{{ "Phone: "+c.phone }}</p> <p>{{ "Email: "+c.email }}</p>
-                    <button class="btn2" type="button" name="action" ng-click="contactCtrl.deleteContact(c.first_name, c.last_name, c.email, c.phone)"> Delete
+                    <button class="btn2" type="submit" name="action" ng-click="contactCtrl.deleteContact(c.user_id, c.first_name)"> Delete
                 </div>
             </div>
         </div>
