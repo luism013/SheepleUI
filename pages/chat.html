@@ -170,14 +170,17 @@
     <div class="col s2">
         <label>Users in Chat</label>
         <i class="fa fa-key"></i>
-        <!--<div ng-value="" >
-            <p> {{c}}</p>
+<!--        &lt;!&ndash;<div ng-value="" >-->
+<!--            <p> {{c}}</p>-->
             <div ng-repeat="c in chatCtrl.currChat">
                 <p>{{d.getMembers(c)}}</p>>
             <p>{{ c.members.join(", ") }}</p>
-            <input type="text" name="search" id="search" class="form-control" ng-model="search"/>
-            <button class="search" ng-click="chatCtrl.searchMsg(search);
-                            chatCtrl.openSearch=true; chatCtrl.openChat=false">Search</button> -->
+                <div ng-repeat="f in chatCtrl.members">
+                <span class="card-title" >{{ f.username }}</span>
+<!--                <p>{{ "Name: "+c.first_name+" "+c.last_name }}</p><p>{{ "Phone: "+c.phone }}</p> <p>{{ "Email: "+c.email }}</p>-->
+<!--            <input type="text" name="search" id="search" class="form-control" ng-model="search"/>-->
+<!--            <button class="search" ng-click="chatCtrl.searchMsg(search);-->
+<!--                chatCtrl.openChat=false">Search</button> &ndash;&gt;-->
     </div>
 </div>
 

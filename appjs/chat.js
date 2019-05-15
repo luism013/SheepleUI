@@ -10,9 +10,9 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         this.currentUser = currUser.getUser();
         this.currentChat = {};
         this.searchList = [];
-
+        this.chatUsers = [];
         this.openChat = true;
-        this.openSearch = true;
+        // this.openSearch = true;
 
         this.loadChats = function(){
             // Now create the url with the route to talk with the rest API
@@ -226,9 +226,10 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         };
 
         this.likeMsg = function(post_id){
-            var reqURL = "http://localhost:5000/Sheeple/posts/reacts/like";
+            var reqURL = "http://localhost:5000/Sheeple/posts/"+post_id+"/like/"+thisCtrl.currentUser.user_id;
             console.log("reqURL: " + reqURL);
-            var data = {'reaction_type': 'like', 'user_id': thisCtrl.currentUser.user_id, 'post_id': post_id};
+            var data = {'likes': true, 'dislikes': false,
+                'person_id': thisCtrl.currentUser.user_id, 'msg_id': post_id};
             console.log(data);
             // Now issue the http request to the rest API
             $http.put(reqURL, data).then(
@@ -261,10 +262,11 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
             $log.error("Users Loaded Likes: ", JSON.stringify());
         };
 
-        this.dislikeMsg = function(post_id){
-            var reqURL = "http://localhost:5000/Sheeple/posts/reacts/dislike";
+        this.dislikeMsg = function(msg_id){
+            var reqURL = "http://localhost:5000/Sheeple/posts/"+msg_id+"/dislike/"+thisCtrl.currentUser.user_id;
             console.log("reqURL: " + reqURL);
-            var data = {'reaction_type': 'dislike', 'user_id': thisCtrl.currentUser.user_id, 'post_id': post_id};
+            var data = {'likes': false, 'dislikes': true,
+                'person_id': thisCtrl.currentUser.user_id, 'msg_id': msg_id};
             console.log(data);
             // Now issue the http request to the rest API
             $http.put(reqURL, data).then(
@@ -297,10 +299,9 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
             $log.error("Users Loaded Dislikes: ", JSON.stringify());
         };
 
-
-        // this.searchMsg = function(hashtag) {
+        // this.loadChatMembers = function() {
         //     var currChat = localStorage.getItem('currentChat');
-        //     var reqURL1 = "http://localhost:5000/Sheeple/gchat/" + currChat+ "/hashtag/" + hashtag;
+        //     var reqURL1 = "http://localhost:5000/Sheeple/groupchats/" + thisCtrl.cu+ "/hashtag/";
         //     console.log("reqURL: " + reqURL1);
         //     // Now issue the http request to the rest API
         //     $http.get(reqURL1).then(
@@ -375,20 +376,20 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
             alert(username+"\n"+name+"\n"+gender+"\n"+email+"\n"+phone);
         };
 
-        $scope.getMembers = function(gchat_index) {
-            thisCtrl.chatsList[gchat_index].members = [];
-            var reqURL = "http://localhost:5000/Sheeple/groupchats/" +thisCtrl.chatsList[gchat_index].gc_id+"/users";
+        $scope.getMembers = function(gc_id) {
+            thisCtrl.chatsList[gc_id].members = [];
+            var reqURL = "http://localhost:5000/Sheeple/groupchats/" +thisCtrl.chatsList[gc_id].gc_id+"/users";
             console.log("reqURL: " + reqURL);
             $http.get(reqURL).then(
                 function (response) {
                     console.log("data: " + JSON.stringify(response.data));
-                    var chat_members = {};
-                    chat_members = response.data.Users;
+                    // var chat_members = {};
+                    var chat_members = response.data.Users;
                     var membersList = [];
                     for (var j = 0; j < chat_members.length; j++) {
                         membersList.push(chat_members[j].username);
                     }
-                    thisCtrl.chatsList[gchat_index].members = membersList;
+                    thisCtrl.chatsList[gc_id].members = membersList;
                 },
                 function (response){
                     // This is the error function
