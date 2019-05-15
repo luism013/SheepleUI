@@ -226,10 +226,9 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         };
 
         this.likeMsg = function(post_id){
-            var reqURL = "http://localhost:5000/Sheeple/posts/"+post_id+"/like/"+thisCtrl.currentUser.user_id;
+            var reqURL = "http://localhost:5000/Sheeple/posts/reacts/like";
             console.log("reqURL: " + reqURL);
-            var data = {'likes': true, 'dislikes': false,
-                'person_id': thisCtrl.currentUser.user_id, 'msg_id': post_id};
+            var data = {'reaction_type': 'like', 'user_id': thisCtrl.currentUser.user_id, 'post_id': post_id};
             console.log(data);
             // Now issue the http request to the rest API
             $http.put(reqURL, data).then(
@@ -262,11 +261,10 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
             $log.error("Users Loaded Likes: ", JSON.stringify());
         };
 
-        this.dislikeMsg = function(msg_id){
-            var reqURL = "http://localhost:5000/Sheeple/posts/"+msg_id+"/dislike/"+thisCtrl.currentUser.user_id;
+        this.dislikeMsg = function(post_id){
+            var reqURL = "http://localhost:5000/Sheeple/posts/reacts/dislike";
             console.log("reqURL: " + reqURL);
-            var data = {'likes': false, 'dislikes': true,
-                'person_id': thisCtrl.currentUser.user_id, 'msg_id': msg_id};
+            var data = {'reaction_type': 'dislike', 'user_id': thisCtrl.currentUser.user_id, 'post_id': post_id};
             console.log(data);
             // Now issue the http request to the rest API
             $http.put(reqURL, data).then(
@@ -298,6 +296,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
 
             $log.error("Users Loaded Dislikes: ", JSON.stringify());
         };
+
 
         // this.searchMsg = function(hashtag) {
         //     var currChat = localStorage.getItem('currentChat');
