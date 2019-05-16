@@ -10,9 +10,10 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         this.currentUser = currUser.getUser();
         this.currentChat = {};
         this.searchList = [];
-        this.chatUsers = [];
+        this.currentUsers = []
+
         this.openChat = true;
-        // this.openSearch = true;
+        this.openSearch = true;
 
         this.loadChats = function(){
             // Now create the url with the route to talk with the rest API
@@ -187,11 +188,18 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         };
 
         this.postMsg = function(newText){
+
+
             var reqURL = "http://localhost:5000/Sheeple/post";
             console.log("reqURL: " + reqURL);
+            var d = new Date();
+            var day = d.getDate();
+            var month = d.getMonth() + 1 ;
+            var year  =  d.getFullYear();
+
             var data = {'post_content': newText, 'user_id': thisCtrl.currentUser.user_id,
                 'gc_id': localStorage.getItem('currentChat'), 'username': thisCtrl.currentUser.username,
-                'image_url': 'To be fixed', 'post_date': 'yikes'};
+                'image_url': 'To be fixed', 'post_date': month + "/" + day + "/" + year  };
             console.log(data);
             // Now issue the http request to the rest API
             $http.post(reqURL, data).then(
@@ -226,10 +234,9 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         };
 
         this.likeMsg = function(post_id){
-            var reqURL = "http://localhost:5000/Sheeple/posts/"+post_id+"/like/"+thisCtrl.currentUser.user_id;
+            var reqURL = "http://localhost:5000/Sheeple/posts/reacts/like";
             console.log("reqURL: " + reqURL);
-            var data = {'likes': true, 'dislikes': false,
-                'person_id': thisCtrl.currentUser.user_id, 'msg_id': post_id};
+            var data = {'reaction_type': 'like', 'user_id': thisCtrl.currentUser.user_id, 'post_id': post_id};
             console.log(data);
             // Now issue the http request to the rest API
             $http.put(reqURL, data).then(
@@ -262,11 +269,10 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
             $log.error("Users Loaded Likes: ", JSON.stringify());
         };
 
-        this.dislikeMsg = function(msg_id){
-            var reqURL = "http://localhost:5000/Sheeple/posts/"+msg_id+"/dislike/"+thisCtrl.currentUser.user_id;
+        this.dislikeMsg = function(post_id){
+            var reqURL = "http://localhost:5000/Sheeple/posts/reacts/dislike";
             console.log("reqURL: " + reqURL);
-            var data = {'likes': false, 'dislikes': true,
-                'person_id': thisCtrl.currentUser.user_id, 'msg_id': msg_id};
+            var data = {'reaction_type': 'dislike', 'user_id': thisCtrl.currentUser.user_id, 'post_id': post_id};
             console.log(data);
             // Now issue the http request to the rest API
             $http.put(reqURL, data).then(
@@ -299,47 +305,49 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
             $log.error("Users Loaded Dislikes: ", JSON.stringify());
         };
 
-        // this.loadChatMembers = function() {
-        //     var currChat = localStorage.getItem('currentChat');
-        //     var reqURL1 = "http://localhost:5000/Sheeple/groupchats/" + thisCtrl.cu+ "/hashtag/";
-        //     console.log("reqURL: " + reqURL1);
-        //     // Now issue the http request to the rest API
-        //     $http.get(reqURL1).then(
-        //         // Success function
-        //         function (response) {
-        //             console.log("data: " + JSON.stringify(response.data));
-        //             // assing the part details to the variable in the controller
-        //
-        //             /*
-        //             * Stores the data received from python call. The jsonyfied data
-        //             */
-        //             thisCtrl.searchList = response.data.Hashtag;
-        //
-        //         },
-        //     function (response){
-        //         // This is the error function
-        //         // If we get here, some error occurred.
-        //         // Verify which was the cause and show an alert.
-        //         var status = response.status;
-        //         if (status == 0){
-        //             alert("No hay conexion a Internet");
-        //         }
-        //         else if (status == 401){
-        //             alert("Su sesion expiro. Conectese de nuevo.");
-        //         }
-        //         else if (status == 403){
-        //             alert("No esta autorizado a usar el sistema.");
-        //         }
-        //         else if (status == 404){ // It means there are no users who like message
-        //
-        //         }
-        //         else {
-        //             alert("Error interno del sistema.");
-        //         }
-        //     });
-        //
-        //     $log.error("Message Loaded: ", JSON.stringify(thisCtrl.reactList));
-        // };
+
+        this.currentUsersInChat = function(){
+            var currChat = localStorage.getItem('currentChat');
+            // Now create the url with the route to talk with the rest API
+            var reqURL = "http://localhost:5000/Sheeple/groupchats/" + currChat + "/users";
+            console.log("reqURL: " + reqURL);
+            // Now issue the http request to the rest API
+            $http.get(reqURL).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                    // assing the part details to the variable in the controller
+
+                    /*
+                    * Stores the data received from python call. The jsonyfied data
+                    */
+                    thisCtrl.currentUsers = response.data.Users;
+                },
+                function (response){
+                    // This is the error function
+                    // If we get here, some error occurred.
+                    // Verify which was the cause and show an alert.
+                    var status = response.status;
+                    if (status == 0){
+                        alert("No hay conexion a Internet");
+                    }
+                    else if (status == 401){
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    }
+                    else if (status == 403){
+                        alert("No esta autorizado a usar el sistema.");
+                    }
+                    else if (status == 404){
+
+                    }
+                    else {
+                        alert("Error interno del sistema.");
+                    }
+                });
+
+            $log.error("Message Loaded Load Users: ", JSON.stringify(thisCtrl.currentUsers));
+
+        };
 
         this.currChat = function(gc_id) {
             localStorage.setItem('currentChat', gc_id);
@@ -353,9 +361,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
             $location.path('/newChat');
         };
 
-        this.showProfile = function() {
-            $location.path('/profile');
-        };
+
 
         this.logout = function() {
             currUser.deleteUser();
@@ -376,20 +382,129 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
             alert(username+"\n"+name+"\n"+gender+"\n"+email+"\n"+phone);
         };
 
-        $scope.getMembers = function(gc_id) {
-            thisCtrl.chatsList[gc_id].members = [];
-            var reqURL = "http://localhost:5000/Sheeple/groupchats/" +thisCtrl.chatsList[gc_id].gc_id+"/users";
+        this.addUserToChat = function(username) {
+            var currChat = localStorage.getItem('currentChat');
+            var url = "http://localhost:5000/Sheeple/groupchats/" + currChat + "/" + username;
+            console.log("url: " + url);
+            var data = {'user_id': username, 'gc_id': currChat};
+
+            $http.post(url,data).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data.User));
+                },
+                function (response){
+                    // This is the error function
+                    // If we get here, some error occurred.
+                    // Verify which was the cause and show an alert.
+                    var status = response.status;
+                    if (status == 0){
+                        alert("No hay conexion a Internet");
+                    }
+                    else if (status == 401){
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    }
+                    else if (status == 403){
+                        alert("No esta autorizado a usar el sistema.");
+                    }
+                    else if (status == 404){
+
+                    }
+                    else {
+                        alert("Error interno del sistema.");
+                    }
+                }
+
+
+            );
+
+            $log.error("Add User: ", JSON.stringify());
+        };
+
+        this.removeUser = function() {
+            var currChat = localStorage.getItem('currentChat');
+            var username = prompt("Please enter username: ")
+            var url = "http://localhost:5000/Sheeple/groupchats/" + currChat + "/" + username;
+            console.log("url: " + url);
+            var data = {'user_id': username, 'gc_id': currChat};
+            $http.delete(url, data).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data.User));
+                    alert(username+" ha sido removido del chat.");
+                },
+                function (response){
+                    // This is the error function
+                    // If we get here, some error occurred.
+                    // Verify which was the cause and show an alert.
+                    var status = response.status;
+                    if (status == 0){
+                        alert("No hay conexion a Internet");
+                    }
+                    else if (status == 401){
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    }
+                    else if (status == 403){
+                        alert("No esta autorizado a usar el sistema.");
+                    }
+                    else if (status == 404){
+
+                    }
+                    else {
+                        alert("Error interno del sistema.");
+                    }
+                });
+        };
+
+        this.deleteChat = function() {
+            var admin_id = thisCtrl.currentUser.user_id
+            var groupchat = prompt("Please enter groupchat name: ");
+            var url = "http://localhost:5000/Sheeple/groupchats/" + groupchat + "/" + admin_id + "/delete";
+            console.log("url: " + url);
+            var data = {'gc_name': groupchat , 'admin_id': admin_id};
+            $http.delete(url, data).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data.User));
+                    alert(groupchat+" ha sido removido.");
+                },
+                function (response){
+                    // This is the error function
+                    // If we get here, some error occurred.
+                    // Verify which was the cause and show an alert.
+                    var status = response.status;
+                    if (status == 0){
+                        alert("No hay conexion a Internet");
+                    }
+                    else if (status == 401){
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    }
+                    else if (status == 403){
+                        alert("No esta autorizado a usar el sistema.");
+                    }
+                    else if (status == 404){
+
+                    }
+                    else {
+                        alert("Error interno del sistema.");
+                    }
+                });
+        };
+
+        $scope.getMembers = function(gchat_index) {
+            thisCtrl.chatsList[gchat_index].members = [];
+            var reqURL = "http://localhost:5000/Sheeple/groupchats/" +thisCtrl.chatsList[gchat_index].gc_id+"/users";
             console.log("reqURL: " + reqURL);
             $http.get(reqURL).then(
                 function (response) {
                     console.log("data: " + JSON.stringify(response.data));
-                    // var chat_members = {};
-                    var chat_members = response.data.Users;
+                    var chat_members = {};
+                    chat_members = response.data.Users;
                     var membersList = [];
                     for (var j = 0; j < chat_members.length; j++) {
                         membersList.push(chat_members[j].username);
                     }
-                    thisCtrl.chatsList[gc_id].members = membersList;
+                    thisCtrl.chatsList[gchat_index].members = membersList;
                 },
                 function (response){
                     // This is the error function
