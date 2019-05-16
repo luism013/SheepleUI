@@ -14,6 +14,8 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         this.openChat = true;
         this.openSearch = true;
 
+        this.file =  new File([""],"filename");
+
         this.loadChats = function(){
             // Now create the url with the route to talk with the rest API
             var reqURL = "http://localhost:5000/Sheeple/groupchats/user/" + thisCtrl.currentUser.user_id;
@@ -187,14 +189,35 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         };
 
         this.postMsg = function(newText){
+             var reqUR = "http://localhost:5000/Sheeple/images";
+             console.log("reqURL: " + reqUR);
+            // console.log(event);
+            // thisCtrl.uploadFile(file);
+             var formdata = new FormData();
+             formdata.append('file',this.file,this.file.name);
+
+             console.log("File:" + this.file.name);
+
+
+             $http.post(reqUR, this.file).then(
+            // Success function
+             function (response) {
+             console.log("data: " + JSON.stringify(response.file));
+             $location.path('/user/gchats');
+
+             });
+
+
+
+
             var reqURL = "http://localhost:5000/Sheeple/post";
             console.log("reqURL: " + reqURL);
             var data = {'post_content': newText, 'user_id': thisCtrl.currentUser.user_id,
                 'gc_id': localStorage.getItem('currentChat'), 'username': thisCtrl.currentUser.username,
-                'image_url': 'To be fixed', 'post_date': 'yikes'};
+                'image_url': this.file.name, 'post_date': 'yikes'};
             console.log(data);
             // Now issue the http request to the rest API
-            $http.post(reqURL, data).then(
+            $http.post(reqURL, data, this.file).then(
                 // Success function
                 function (response) {
                     console.log("data: " + JSON.stringify(response.data));
@@ -224,6 +247,14 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
 
             $log.error("Users Loaded post message: ", JSON.stringify());
         };
+
+
+        this.uploadFile = function(event) {
+            this.file = event.target.files[0];
+            console.log(event);
+            console.log('testing');
+        };
+
 
         this.likeMsg = function(post_id){
             var reqURL = "http://localhost:5000/Sheeple/posts/reacts/like";

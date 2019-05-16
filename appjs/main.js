@@ -34,16 +34,16 @@
 
     app.service('currUser', function () {
 
-            this.setUser = function(user) {
-                localStorage.setItem('currentUser',JSON.stringify(user));
-                return;
-            };
-            this.getUser = function() {
-                return JSON.parse(localStorage.getItem('currentUser'));
-            };
-            this.deleteUser = function() {
-                localStorage.removeItem('currentUser');
-            };
-});
+        this.setUser = function(user) {
+            localStorage.setItem('currentUser',JSON.stringify(user));
+            return;
+        };
+        this.getUser = function() {
+            return JSON.parse(localStorage.getItem('currentUser'));
+        };
+        this.deleteUser = function() {
+            localStorage.removeItem('currentUser');
+        };
+    });
 
 })();

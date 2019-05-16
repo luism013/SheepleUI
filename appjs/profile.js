@@ -1,15 +1,15 @@
-angular.module('AppChat').controller('ProfileController', ['$http', '$log', '$scope', '$location', '$routeParams', 'currUser',
+angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$scope', '$location', '$routeParams', 'currUser',
     function($http, $log, $scope, $location, $routeParams, currUser) {
         "use strict";
         var thisCtrl = this;
         this.currentUser = currUser.getUser();
-        this.ownedChatsList = [];
-        this.contacts = [];
+        this.postsPerDay = [];
+        this.hashtags = [];
         this.editChat = false;
         this.currChat = [];
 
-        this.loadContacts = function() {
-        var reqURL = "http://localhost:5000/Sheeple/contactlists/user/" + thisCtrl.currentUser.user_id;
+        this.loadtrendinghashtags = function() {
+        var reqURL = "http://localhost:5000/Sheeple/dashboard/hashtags";
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.get(reqURL).then(
@@ -21,8 +21,8 @@ angular.module('AppChat').controller('ProfileController', ['$http', '$log', '$sc
                     /*
                     * Stores the data received from python call. The jsonyfied data
                     */
-                    thisCtrl.contacts = response.data.Contacts;
-                    console.log(thisCtrl.contacts);
+                    thisCtrl.hashtags = response.data.Hashtags;
+                    console.log(thisCtrl.hashtags);
                 },
             function (response){
                 // This is the error function
@@ -49,10 +49,10 @@ angular.module('AppChat').controller('ProfileController', ['$http', '$log', '$sc
             $log.error("Message Loaded: ", JSON.stringify(thisCtrl.messageList));
         };
 
-        this.loadOwnedChats = function(){
+        this.loadposts = function(){
             // Now create the url with the route to talk with the rest API
             // ---------------------------------------------------------------------------------------
-            var reqURL = "http://localhost:5000/Sheeple/groupchats/user/" + thisCtrl.currentUser.user_id;
+            var reqURL = "http://localhost:5000/Sheeple/dashboad/posts";
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.get(reqURL).then(
@@ -64,7 +64,7 @@ angular.module('AppChat').controller('ProfileController', ['$http', '$log', '$sc
                     /*
                     * Stores the data received from python call. The jsonyfied data
                     */
-                    thisCtrl.ownedChatsList = response.data.ChatsByOwner;
+                    thisCtrl.postPerDay = response.data.postsPerDay;
 
                 },
             function (response){

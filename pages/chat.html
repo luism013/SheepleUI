@@ -34,6 +34,12 @@
                 background-color: #777;
             }
 
+            /*style img (to be in the center of groupchat*/
+            img{
+                 display: block;
+                 margin-left: auto;
+                 margin-right: auto;
+            }
         </style>
 
     </head>
@@ -79,6 +85,15 @@
                 <textarea style="background: white" id="textarea1" class="materialize-textarea" ng-model="newText"></textarea>
             </div>
             <div class="card-action white">
+                <form>
+                    <input type="file"
+                           id="file" name='file' onclick="chatCtrl.uploadFile($event)" />
+                    <button>Upload Your File</button>
+                </form>
+
+                </body>
+<!--                <input class="btn waves-effect waves-light" type="file" name="Browse" size="25" (change)="chatCtrl.uploadFile($event);">-->
+<!--                <button class="btn waves-effect waves-light" (click)="lol.click()">Browse</button>-->
                 <button class="btn waves-effect waves-light" type="submit" name="action" ng-click="chatCtrl.postMsg(newText)">Send
                     <i class="material-icons right">send</i>
                 </button>
@@ -94,7 +109,9 @@
                 <div class="card-content">
                     <!-- Card Title is the person who write the message -->
                     <span class="card-title" >{{ m.username }}</span>
-                    <!-- Here comes the message text -->
+                    <!-- Here comes the image -->
+                    <img alt="image_url" src="localhost:5000/Sheeple/images/{{m.image_url}}">
+
                     <p>
                         {{m.post_content}}
                     </p>
