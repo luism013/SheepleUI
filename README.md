@@ -8,7 +8,9 @@ Maria Novoa García,
 Jonathan Flechas Guzmán
 
 
-TO RUN:
+TO EXECUTE:
 Run main.py from the Sheeple project. Then, launch index.html located in the SheepleUI project. See the main.py code in the Sheeple project to know how to trigger certain actions and queries. 
 
-**need to add link to repos.
+**dashboard, replies and image posting is yet to be implemented**
+
+https://github.com/mcnovoa/Sheeple/tree/Phase3
