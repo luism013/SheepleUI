@@ -4,12 +4,15 @@ angular.module('Sheeple').controller('DashboardController', ['$http', '$log', '$
         var thisCtrl = this;
         this.currentUser = currUser.getUser();
 
+        if(localStorage.getItem('id') == null){
+            localStorage.setItem('id', 1);
+        }
+        else {
+            this.currentPost = localStorage.getItem('id');
+        }
+
         this.showContacts = function() {
             $location.path('/user/contacts');
-        };
-
-        this.showDashboard = function() {
-            $location.path('/dashboard');
         };
 
         this.logout = function() {
@@ -26,6 +29,13 @@ angular.module('Sheeple').controller('DashboardController', ['$http', '$log', '$
             $location.path('/user/gchats');
         };
 
+
+        this.changePost = function(){
+            var val = prompt("Please enter post id: ");
+            localStorage.setItem('id', val);
+            console.log(thisCtrl.currentUser);
+        }
+
         this.userInfo = function() {
             var name = "Name: "+this.currentUser.first_name+" "+this.currentUser.last_name;
             var phone = "Phone: "+this.currentUser.phone;
@@ -40,13 +50,13 @@ angular.module('Sheeple').controller('DashboardController', ['$http', '$log', '$
         google.charts.setOnLoadCallback(createHashtags);
         google.charts.setOnLoadCallback(createPostsPerDay);
         google.charts.setOnLoadCallback(createRepliesPerDay);
-        google.charts.setOnLoadCallback(createLikesPerDay)
+        google.charts.setOnLoadCallback(createLikesPerDay);
         google.charts.setOnLoadCallback(createDislikesPerDay);
         google.charts.setOnLoadCallback(createMostActivePerDay);
         google.charts.setOnLoadCallback(createUserActivity);
-        // google.charts.setOnLoadCallback(createRepliesForPost);
+        google.charts.setOnLoadCallback(createRepliesForPost);
         google.charts.setOnLoadCallback(createLikesForPost);
-        // google.charts.setOnLoadCallback(createDislikesForPost);
+        google.charts.setOnLoadCallback(createDislikesForPost);
 
         function createHashtags() {
             var json = $.ajax({
@@ -419,21 +429,21 @@ angular.module('Sheeple').controller('DashboardController', ['$http', '$log', '$
 
         function createRepliesForPost() {
             var json = $.ajax({
-                url: "http://localhost:5000/Sheeple/dashboard/replies/" + post_id,
+                url: "http://localhost:5000/Sheeple/dashboard/replies/" + thisCtrl.currentPost,
                 dataType: "json",
                 async: false
             }).responseText;
             console.log("json: " + JSON.parse(json));
 
             var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Post');
+            data.addColumn('number', 'Post');
             data.addColumn('number', 'Replies');
 
             data.addRows(replyForPostData(JSON.parse(json)));
 
             var options = {
                 title: 'Replies for Post',
-                chartArea: {width: '500px'},
+                chartArea: {width: '600px'},
                 hAxis: {
                     title: 'Replies',
                     minValue: 0
@@ -443,7 +453,7 @@ angular.module('Sheeple').controller('DashboardController', ['$http', '$log', '$
                 }
             };
 
-            var googleChart = new google.charts.Bar(document.getElementById('postsPerDay'));
+            var googleChart = new google.charts.Bar(document.getElementById('repliesPerPost'));
 
             googleChart.draw(data, options);
 
@@ -470,17 +480,16 @@ angular.module('Sheeple').controller('DashboardController', ['$http', '$log', '$
 
 
         function createLikesForPost() {
-            var post_id;
-            var likes = "like"
+            // var likes = "like"
             var json = $.ajax({
-                url: "http://localhost:5000/Sheeple/dashboard/" + likes,
+                url: "http://localhost:5000/Sheeple/dashboard/like/"+thisCtrl.currentPost,
                 dataType: "json",
                 async: false
             }).responseText;
             console.log("json: " + JSON.parse(json));
 
             var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Post');
+            data.addColumn('number', 'Post');
             data.addColumn('number', 'Likes');
 
             data.addRows(likesPostData(JSON.parse(json)));
@@ -512,10 +521,10 @@ angular.module('Sheeple').controller('DashboardController', ['$http', '$log', '$
             var result = [];
             var i;
 
-            for(i=0; i < response.length && i < 10; i++) {
+            for(i=0; i < response.length && i < 1; i++) {
                 var mapped_result = [];
-                mapped_result.push(response[i]["post_id"]);
-                mapped_result.push(response[i]["total"]);
+                mapped_result.push(response[i]['post_id']);
+                mapped_result.push(response[i]['total']);
                 result.push(mapped_result);
             }
             console.log(result);
@@ -524,10 +533,8 @@ angular.module('Sheeple').controller('DashboardController', ['$http', '$log', '$
 
 
         function createDislikesForPost() {
-            var dislikes = "dislike";
-            var post_id;
             var json = $.ajax({
-                url: "http://localhost:5000/Sheeple/dashboard/" + dislikes + "/" + post_id,
+                url: "http://localhost:5000/Sheeple/dashboard/dislike/"+thisCtrl.currentPost,
                 dataType: "json",
                 async: false
             }).responseText;
@@ -535,7 +542,7 @@ angular.module('Sheeple').controller('DashboardController', ['$http', '$log', '$
             console.log("json: " + JSON.parse(json));
 
             var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Post');
+            data.addColumn('number', 'Post');
             data.addColumn('number', 'Dislikes');
 
             data.addRows(dislikesPostData(JSON.parse(json)));
@@ -566,10 +573,10 @@ angular.module('Sheeple').controller('DashboardController', ['$http', '$log', '$
             var result = [];
             var i;
 
-            for(i=0; i < response.length && i < 10; i++) {
+            for(i=0; i < response.length && i < 1; i++) {
                 var mapped_result = [];
-                mapped_result.push(response[i]["post_id"]);
-                mapped_result.push(response[i]["total"]);
+                mapped_result.push(response[i]['post_id']);
+                mapped_result.push(response[i]['total']);
                 result.push(mapped_result);
             }
             console.log(result);
