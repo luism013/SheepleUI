@@ -1,4 +1,4 @@
-angular.module('AppChat').controller('ContactsController', ['$http', '$log', '$scope', '$location', '$routeParams', 'currUser',
+angular.module('Sheeple').controller('ContactsController', ['$http', '$log', '$scope', '$location', '$routeParams', 'currUser',
     function($http, $log, $scope, $location, $routeParams, currUser) {
         "use strict";
         var thisCtrl = this;
