@@ -34,6 +34,7 @@ angular.module('Sheeple').controller('DashboardController', ['$http', '$log', '$
             var val = prompt("Please enter post id: ");
             localStorage.setItem('id', val);
             console.log(thisCtrl.currentUser);
+            thisCtrl.refresh();
         }
 
         this.userInfo = function() {
@@ -74,7 +75,7 @@ angular.module('Sheeple').controller('DashboardController', ['$http', '$log', '$
             data.addRows(hashtagData(JSON.parse(json)));
 
             var options = {
-                title: 'Trending Hashtags',
+                title: "Trending Hashtags",
                 chartArea: {width: '600px'},
                 hAxis: {
                     title: 'Total Hashtags',
@@ -126,7 +127,7 @@ angular.module('Sheeple').controller('DashboardController', ['$http', '$log', '$
             data.addRows(postData(JSON.parse(json)));
 
             var options = {
-                title: 'Post per Day',
+                title: "Post per Day",
                 chartArea: {width: '600px'},
                 hAxis: {
                     title: 'Posts',
@@ -495,7 +496,7 @@ angular.module('Sheeple').controller('DashboardController', ['$http', '$log', '$
             data.addRows(likesPostData(JSON.parse(json)));
 
             var options = {
-                title: 'Likes for Post',
+                title: "Likes for Post",
                 chartArea: {width: '600px'},
                 hAxis: {
                     title: 'Likes',
