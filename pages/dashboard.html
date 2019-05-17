@@ -1,0 +1,49 @@
+<div ng-cloak style="align-content: center">
+
+    <head>
+        <style>
+            /* Style the tab buttons */
+            .tablink{
+                background-color: red;
+                color: white;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 14px 16px;
+                font-size: 17px;
+                width: 16.66%;
+                margin-top: -20px;
+            }
+
+            .btn{
+                text-align: center;
+                background-color: red;
+                border: none;
+                color: white;
+                /*padding: 12px 180px;*/
+                /*font-size: 16px;*/
+                cursor: pointer;
+            }
+
+            .card-content{
+                text-align: center;
+            }
+
+            .tablink:hover {
+                background-color: #777;
+            }
+
+        </style>
+
+
+    <button class="tablink" ng-click="dashboardCtrl.showChats()" id="defaultOpen">Group Chat</button>
+    <button class="tablink" ng-click="dashboardCtrl.showContacts()">Contacts</button>
+    <button class="tablink" ng-click="dashboardCtrl.userInfo()">User Info</button>
+    <button class="tablink" ng-click="">Dashboard</button>
+    <button class="tablink" ng-click="dashboardCtrl.refresh()">Refresh</button>
+    <button class="tablink" ng-click="dashboardCtrl.logout()">Logout</button>
+
+
+</head>
+</div>

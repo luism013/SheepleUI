@@ -147,6 +147,10 @@ angular.module('AppChat').controller('NewChatController', ['$http', '$log', '$sc
             $location.path('/user/contacts');
         };
 
+        this.showDashboard = function() {
+            $location.path('/dashboard');
+        };
+
         this.userInfo = function() {
             var name = "Name: "+this.currentUser.first_name+" "+this.currentUser.last_name;
             var phone = "Phone: "+this.currentUser.phone;

@@ -131,6 +131,10 @@ angular.module('AppChat').controller('ContactsController', ['$http', '$log', '$s
             $location.path('/login');
         };
 
+        this.showDashboard = function() {
+            $location.path('/dashboard');
+        };
+
         this.refresh = function() {
             window.location.reload();
         };

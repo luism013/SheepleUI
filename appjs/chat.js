@@ -103,9 +103,9 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         };
 
         this.loadReplies = function(post_id){
-            thisCtrl.currPost(post_id)
+            thisCtrl.currPost(post_id);
             thisCtrl.replies = true;
-            console.log(post_id)
+            console.log(post_id);
             // Now create the url with the route to talk with the rest API
             var reqURL = "http://localhost:5000/Sheeple/posts/replies/" + post_id;
             console.log("reqURL: " + reqURL);
@@ -446,10 +446,13 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
             $location.path('/user/contacts');
         };
 
+        this.showDashboard = function() {
+            $location.path('/dashboard');
+        };
+
         this.newChat = function() {
             $location.path('/newChat');
         };
-
 
 
         this.logout = function() {
@@ -512,7 +515,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
 
         this.removeUser = function() {
             var currChat = localStorage.getItem('currentChat');
-            var username = prompt("Please enter username: ")
+            var username = prompt("Please enter username: ");
             var url = "http://localhost:5000/Sheeple/groupchats/" + currChat + "/" + username;
             console.log("url: " + url);
             var data = {'user_id': username, 'gc_id': currChat};
@@ -546,7 +549,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         };
 
         this.deleteChat = function() {
-            var admin_id = thisCtrl.currentUser.user_id
+            var admin_id = thisCtrl.currentUser.user_id;
             var groupchat = prompt("Please enter groupchat name: ");
             var url = "http://localhost:5000/Sheeple/groupchats/" + groupchat + "/" + admin_id + "/delete";
             console.log("url: " + url);

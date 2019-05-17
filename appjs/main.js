@@ -19,15 +19,16 @@
             templateUrl: 'pages/newChat.html',
             controller: 'NewChatController',
             controllerAs : 'newChatCtrl'
-        }).when('/profile', {
-            templateUrl: 'pages/profile.html',
-            controller: 'ProfileController',
-            controllerAs : 'profileCtrl'
-        }).when('/msg/gchat/1', {
-            templateUrl: 'pages/chat.html',
-            controller: 'ChatController',
-            controllerAs : 'chatCtrl'
-        }).otherwise({
+        }).when('/dashboard', {
+            templateUrl: 'pages/dashboard.html',
+            controller: 'DashboardController',
+            controllerAs: 'dashboardCtrl'
+        })
+        // }).when('/msg/gchat/1', {
+        //     templateUrl: 'pages/chat.html',
+        //     controller: 'ChatController',
+        //     controllerAs : 'chatCtrl'
+        .otherwise({
             redirectTo: '/login'
         });
     }]);
