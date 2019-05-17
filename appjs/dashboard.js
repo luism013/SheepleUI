@@ -1,15 +1,8 @@
-angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$scope', '$location', '$routeParams', 'currUser',
+angular.module('Sheeple').controller('DashboardController', ['$http', '$log', '$scope', '$location', '$routeParams', 'currUser',
     function($http, $log, $scope, $location, $routeParams, currUser) {
         "use strict";
         var thisCtrl = this;
-
         this.currentUser = currUser.getUser();
-        // this.counter  = 0;
-        // this.numberOfLikes = 0;
-        // this.numberOfDislikes = 0;
-        // this.orderedHashtagList = [];
-        // this.date = "";
-
 
         this.showContacts = function() {
             $location.path('/user/contacts');
@@ -42,7 +35,18 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
             alert(username+"\n"+name+"\n"+gender+"\n"+email+"\n"+phone);
         };
 
+        google.charts.load('current', {'packages': ['corechart', 'bar', 'table', 'linechart']});
+
         google.charts.setOnLoadCallback(createHashtags);
+        google.charts.setOnLoadCallback(createPostsPerDay);
+        google.charts.setOnLoadCallback(createRepliesPerDay);
+        google.charts.setOnLoadCallback(createLikesPerDay)
+        google.charts.setOnLoadCallback(createDislikesPerDay);
+        google.charts.setOnLoadCallback(createMostActivePerDay);
+        google.charts.setOnLoadCallback(createUserActivity);
+        // google.charts.setOnLoadCallback(createRepliesForPost);
+        google.charts.setOnLoadCallback(createLikesForPost);
+        // google.charts.setOnLoadCallback(createDislikesForPost);
 
         function createHashtags() {
             var json = $.ajax({
@@ -50,19 +54,18 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
                 dataType: "json",
                 async: false
             }).responseText;
-            //console.log(jsonData);
+            // console.log(json);
             console.log("json: " + JSON.parse(json));
 
-            var dt = new google.visualization.DataTable();
+            var data = new google.visualization.DataTable();
             data.addColumn('string', 'Hashtag');
-
             data.addColumn('number', 'Total');
 
-            data.addRows(hashtagData(JSON.parse(jsonData)));
+            data.addRows(hashtagData(JSON.parse(json)));
 
             var options = {
                 title: 'Trending Hashtags',
-                chartArea: {width: '500px'},
+                chartArea: {width: '600px'},
                 hAxis: {
                     title: 'Total Hashtags',
                     minValue: 0
@@ -74,23 +77,24 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
 
             var googleChart = new google.charts.Bar(document.getElementById('trending_hashtags'));
 
-            googleChart.draw(dt, options);
+            googleChart.draw(data, options);
 
         }
 
         function hashtagData(json){
             var response = json.Hashtag;
-            console.log(response)
+            // console.log(response)
             console.log("response: " + JSON.stringify(response));
 
             var result = [];
             var i;
 
-            for(i=0; i < temp.length && i < 10; i++) {
+            for(i=0; i < response.length && i < 10; i++) {
                 var mapped_result = [];
-                mapped_result.push(response[i]["hastag_content"]);
-                mapped_result.push(response[i]["count"]);
-                result.push(dataElement);
+                mapped_result.push(response[i]['Hashtag']);
+                mapped_result.push(response[i]['Total']);
+                // mapped_result.push(response[i]);
+                result.push(mapped_result);
             }
             console.log(result);
             return result;
@@ -103,10 +107,9 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
                 dataType: "json",
                 async: false
             }).responseText;
-            //console.log(jsonData);
             console.log("json: " + JSON.parse(json));
 
-            var dt = new google.visualization.DataTable();
+            var data = new google.visualization.DataTable();
             data.addColumn('string', 'Day');
             data.addColumn('number', 'Posts');
 
@@ -114,7 +117,7 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
 
             var options = {
                 title: 'Post per Day',
-                chartArea: {width: '500px'},
+                chartArea: {width: '600px'},
                 hAxis: {
                     title: 'Posts',
                     minValue: 0
@@ -124,9 +127,9 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
                 }
             };
 
-            var googleChart = new google.charts.Bar(document.getElementById('postsPerDay'));
+            var googleChart = new google.charts.Bar(document.getElementById('postPerDay'));
 
-            googleChart.draw(dt, options);
+            googleChart.draw(data, options);
 
         }
 
@@ -139,10 +142,10 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
             var result = [];
             var i;
 
-            for(i=0; i < temp.length && i < 10; i++) {
+            for(i=0; i < response.length && i < 10; i++) {
                 var mapped_result = [];
-                mapped_result.push(response[i]["post_dat"]);
-                mapped_result.push(response[i]["Total"]);
+                mapped_result.push(response[i]["day"]);
+                mapped_result.push(response[i]["total"]);
                 result.push(mapped_result);
             }
             console.log(result);
@@ -155,10 +158,9 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
                 dataType: "json",
                 async: false
             }).responseText;
-            //console.log(jsonData);
             console.log("json: " + JSON.parse(json));
 
-            var dt = new google.visualization.DataTable();
+            var data = new google.visualization.DataTable();
             data.addColumn('string', 'Day');
             data.addColumn('number', 'Replies');
 
@@ -166,7 +168,7 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
 
             var options = {
                 title: 'Replies per Day',
-                chartArea: {width: '500px'},
+                chartArea: {width: '600px'},
                 hAxis: {
                     title: 'Replies',
                     minValue: 0
@@ -178,7 +180,7 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
 
             var googleChart = new google.charts.Bar(document.getElementById('repliesPerDay'));
 
-            googleChart.draw(dt, options);
+            googleChart.draw(data, options);
 
         }
 
@@ -186,15 +188,15 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
         function replyData(json){
             var response = json.RepliesPerDay;
             console.log(response)
-            console.log("response: " + JSON.stringify(temp));
+            console.log("response: " + JSON.stringify(response));
 
             var result = [];
             var i;
 
-            for(i=0; i < temp.length && i < 10; i++) {
+            for(i=0; i < response.length && i < 10; i++) {
                 var mapped_result = [];
-                mapped_result.push(response[i]["post_dat"]);
-                mapped_result.push(response[i]["Total"]);
+                mapped_result.push(response[i]["day"]);
+                mapped_result.push(response[i]["total"]);
                 result.push(mapped_result);
             }
             console.log(result);
@@ -212,17 +214,17 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
             //console.log(jsonData);
             console.log("json: " + JSON.parse(json));
 
-            var dt = new google.visualization.DataTable();
+            var data = new google.visualization.DataTable();
             data.addColumn('string', 'Day');
-            data.addColumn('number', 'Replies');
+            data.addColumn('number', 'Likes');
 
             data.addRows(likesData(JSON.parse(json)));
 
             var options = {
                 title: 'Replies per Day',
-                chartArea: {width: '500px'},
+                chartArea: {width: '600px'},
                 hAxis: {
-                    title: 'Replies',
+                    title: 'Likes',
                     minValue: 0
                 },
                 vAxis: {
@@ -232,23 +234,23 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
 
             var googleChart = new google.charts.Bar(document.getElementById('likesPerDay'));
 
-            googleChart.draw(dt, options);
+            googleChart.draw(data, options);
 
         }
 
 
         function likesData(json){
             var response = json.LikesPerDay;
-            console.log(response)
+            // console.log(response)
             console.log("response: " + JSON.stringify(response));
 
             var result = [];
             var i;
 
-            for(i=0; i < temp.length && i < 10; i++) {
+            for(i=0; i < response.length && i < 10; i++) {
                 var mapped_result = [];
-                mapped_result.push(response[i]["post_dat"]);
-                mapped_result.push(response[i]["Total"]);
+                mapped_result.push(response[i]["day"]);
+                mapped_result.push(response[i]["total"]);
                 result.push(mapped_result);
             }
             console.log(result);
@@ -259,14 +261,14 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
         function createDislikesPerDay() {
             var dislikes = "dislike"
             var json = $.ajax({
-                url: "http://localhost:5000/Sheeple/dashboard/" + likes,
+                url: "http://localhost:5000/Sheeple/dashboard/" + dislikes,
                 dataType: "json",
                 async: false
             }).responseText;
             //console.log(jsonData);
             console.log("json: " + JSON.parse(json));
 
-            var dt = new google.visualization.DataTable();
+            var data = new google.visualization.DataTable();
             data.addColumn('string', 'Day');
             data.addColumn('number', 'Dislikes');
 
@@ -274,7 +276,7 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
 
             var options = {
                 title: 'Dislikes per Day',
-                chartArea: {width: '500px'},
+                chartArea: {width: '600px'},
                 hAxis: {
                     title: 'Dislikes',
                     minValue: 0
@@ -286,7 +288,7 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
 
             var googleChart = new google.charts.Bar(document.getElementById('dislikesPerDay'));
 
-            googleChart.draw(dt, options);
+            googleChart.draw(data, options);
 
         }
 
@@ -299,10 +301,10 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
             var result = [];
             var i;
 
-            for(i=0; i < temp.length && i < 10; i++) {
+            for(i=0; i < response.length && i < 10; i++) {
                 var mapped_result = [];
-                mapped_result.push(response[i]["post_dat"]);
-                mapped_result.push(response[i]["Total"]);
+                mapped_result.push(response[i]["day"]);
+                mapped_result.push(response[i]["total"]);
                 result.push(mapped_result);
             }
             console.log(result);
@@ -316,10 +318,9 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
                 dataType: "json",
                 async: false
             }).responseText;
-            //console.log(jsonData);
             console.log("json: " + JSON.parse(json));
 
-            var dt = new google.visualization.DataTable();
+            var data = new google.visualization.DataTable();
             data.addColumn('string', 'Day');
             data.addColumn('number', 'Activity');
 
@@ -337,25 +338,24 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
                 }
             };
 
-            var googleChart = new google.charts.Bar(document.getElementById('mostActiveUser'));
+            var googleChart = new google.charts.Bar(document.getElementById('mostActiveUsers'));
 
-            googleChart.draw(dt, options);
+            googleChart.draw(data, options);
 
         }
 
 
         function userData(json){
-            var response = json.MostActiveUserPerDay;
-            console.log(response)
+            var response = json.MostActiveUsersPerDay;
             console.log("response: " + JSON.stringify(response));
 
             var result = [];
             var i;
 
-            for(i=0; i < temp.length && i < 10; i++) {
+            for(i=0; i < response.length && i < 10; i++) {
                 var mapped_result = [];
-                mapped_result.push(response[i]["post_dat"]);
-                mapped_result.push(response[i]["Total"]);
+                mapped_result.push(response[i]["day"]);
+                mapped_result.push(response[i]["total"]);
                 result.push(mapped_result);
             }
             console.log(result);
@@ -365,14 +365,14 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
 
         function createUserActivity() {
             var json = $.ajax({
-                url: "http://localhost:5000/Sheeple/dashboard/posts/" + currUser ,   //  FIX   THIS
+                url: "http://localhost:5000/Sheeple/dashboard/posts/" + thisCtrl.currentUser.user_id ,
                 dataType: "json",
                 async: false
             }).responseText;
             //console.log(jsonData);
             console.log("json: " + JSON.parse(json));
 
-            var dt = new google.visualization.DataTable();
+            var data = new google.visualization.DataTable();
             data.addColumn('string', 'Day');
             data.addColumn('number', 'Posts');
 
@@ -392,7 +392,7 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
 
             var googleChart = new google.charts.Bar(document.getElementById('userActivity'));
 
-            googleChart.draw(dt, options);
+            googleChart.draw(data, options);
 
         }
 
@@ -405,10 +405,10 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
             var result = [];
             var i;
 
-            for(i=0; i < temp.length && i < 10; i++) {
+            for(i=0; i < response.length && i < 10; i++) {
                 var mapped_result = [];
-                mapped_result.push(response[i]["post_dat"]);
-                mapped_result.push(response[i]["Total"]);
+                mapped_result.push(response[i]["day"]);
+                mapped_result.push(response[i]["total"]);
                 result.push(mapped_result);
             }
             console.log(result);
@@ -423,10 +423,9 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
                 dataType: "json",
                 async: false
             }).responseText;
-            //console.log(jsonData);
             console.log("json: " + JSON.parse(json));
 
-            var dt = new google.visualization.DataTable();
+            var data = new google.visualization.DataTable();
             data.addColumn('string', 'Post');
             data.addColumn('number', 'Replies');
 
@@ -446,7 +445,7 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
 
             var googleChart = new google.charts.Bar(document.getElementById('postsPerDay'));
 
-            googleChart.draw(dt, options);
+            googleChart.draw(data, options);
 
         }
 
@@ -459,10 +458,10 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
             var result = [];
             var i;
 
-            for(i=0; i < temp.length && i < 10; i++) {
+            for(i=0; i < response.length && i < 10; i++) {
                 var mapped_result = [];
-                mapped_result.push(response[i]["post_dat"]);
-                mapped_result.push(response[i]["Total"]);
+                mapped_result.push(response[i]["post_id"]);
+                mapped_result.push(response[i]["total"]);
                 result.push(mapped_result);
             }
             console.log(result);
@@ -471,17 +470,16 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
 
 
         function createLikesForPost() {
-            var post_id
+            var post_id;
             var likes = "like"
             var json = $.ajax({
-                url: "http://localhost:5000/Sheeple/dashboard/" + likes + "/" + post_id,
+                url: "http://localhost:5000/Sheeple/dashboard/" + likes,
                 dataType: "json",
                 async: false
             }).responseText;
-            //console.log(jsonData);
             console.log("json: " + JSON.parse(json));
 
-            var dt = new google.visualization.DataTable();
+            var data = new google.visualization.DataTable();
             data.addColumn('string', 'Post');
             data.addColumn('number', 'Likes');
 
@@ -489,7 +487,7 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
 
             var options = {
                 title: 'Likes for Post',
-                chartArea: {width: '500px'},
+                chartArea: {width: '600px'},
                 hAxis: {
                     title: 'Likes',
                     minValue: 0
@@ -501,7 +499,7 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
 
             var googleChart = new google.charts.Bar(document.getElementById('likesPerPost'));
 
-            googleChart.draw(dt, options);
+            googleChart.draw(data, options);
 
         }
 
@@ -514,10 +512,10 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
             var result = [];
             var i;
 
-            for(i=0; i < temp.length && i < 10; i++) {
+            for(i=0; i < response.length && i < 10; i++) {
                 var mapped_result = [];
-                mapped_result.push(response[i]["post_dat"]);
-                mapped_result.push(response[i]["Total"]);
+                mapped_result.push(response[i]["post_id"]);
+                mapped_result.push(response[i]["total"]);
                 result.push(mapped_result);
             }
             console.log(result);
@@ -526,8 +524,8 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
 
 
         function createDislikesForPost() {
-            var dislikes = "dislike"
-            var post_id
+            var dislikes = "dislike";
+            var post_id;
             var json = $.ajax({
                 url: "http://localhost:5000/Sheeple/dashboard/" + dislikes + "/" + post_id,
                 dataType: "json",
@@ -536,7 +534,7 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
             //console.log(jsonData);
             console.log("json: " + JSON.parse(json));
 
-            var dt = new google.visualization.DataTable();
+            var data = new google.visualization.DataTable();
             data.addColumn('string', 'Post');
             data.addColumn('number', 'Dislikes');
 
@@ -544,7 +542,7 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
 
             var options = {
                 title: 'Dislikes for Post',
-                chartArea: {width: '500px'},
+                chartArea: {width: '600px'},
                 hAxis: {
                     title: 'Likes',
                     minValue: 0
@@ -556,23 +554,22 @@ angular.module('AppChat').controller('DashboardController', ['$http', '$log', '$
 
             var googleChart = new google.charts.Bar(document.getElementById('dislikesPerPost'));
 
-            googleChart.draw(dt, options);
+            googleChart.draw(data, options);
 
         }
 
 
         function dislikesPostData(json){
-            var response = json.NumberOfLikes;
-            console.log(response)
+            var response = json.NumberOfDislikes;
             console.log("response: " + JSON.stringify(response));
 
             var result = [];
             var i;
 
-            for(i=0; i < temp.length && i < 10; i++) {
+            for(i=0; i < response.length && i < 10; i++) {
                 var mapped_result = [];
-                mapped_result.push(response[i]["post_dat"]);
-                mapped_result.push(response[i]["Total"]);
+                mapped_result.push(response[i]["post_id"]);
+                mapped_result.push(response[i]["total"]);
                 result.push(mapped_result);
             }
             console.log(result);
