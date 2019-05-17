@@ -56,6 +56,14 @@
                 </div>
             </div>
 
+            <div class="card" ng-click="chatCtrl.deleteChat()">
+                <div class="card black">
+                    <div class="card-content">
+                        <button class="card-title btn">DeleteChat</button>
+                    </div>
+                </div>
+            </div>
+
             <h5>CHATS</h5>
             <div ng-repeat="c in chatCtrl.chatsList">
                 <div class="card" ng-click="chatCtrl.replies=false;
@@ -67,13 +75,7 @@
                 </div>
             </div>
 
-            <div class="card" ng-click="chatCtrl.deleteChat()">
-                <div class="card black">
-                    <div class="card-content">
-                        <button class="card-title btn">DeleteChat</button>
-                    </div>
-                </div>
-            </div>
+
         </div>
 
 
@@ -198,6 +200,14 @@
                 </div>
             </form>
 
+            <div class="card" ng-click="chatCtrl.removeUser()">
+                <div class="card black">
+                    <div class="card-content">
+                        <button class="card-title btn">REMOVE USER</button>
+                    </div>
+                </div>
+            </div>
+
             <h5>USERS IN CHAT</h5>
             <div class="card" ng-repeat="n in chatCtrl.currentUsers">
                 <div class="card-content">
@@ -210,10 +220,3 @@
 
             </div>
 
-            <div class="card" ng-click="chatCtrl.removeUser()">
-                <div class="card black">
-                    <div class="card-content">
-                        <button class="card-title btn">REMOVE USER</button>
-                    </div>
-                </div>
-            </div>
